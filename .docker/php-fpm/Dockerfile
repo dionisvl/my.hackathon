@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y \
         curl \
         xml \
         bcmath \
-        zip
+        zip \
+        exif
 
 # Ensure the directory for additional ini files is available
 COPY ./.docker/php-fpm/conf.d /usr/local/etc/php/conf.d

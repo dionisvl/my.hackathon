@@ -1,10 +1,10 @@
 <?php
 
 use MoonShine\Exceptions\MoonShineNotFoundException;
-use MoonShine\Forms\LoginForm;
+use App\MoonShine\Forms\LoginForm;
 use MoonShine\Http\Middleware\Authenticate;
 use MoonShine\Http\Middleware\SecurityHeadersMiddleware;
-use MoonShine\Models\MoonshineUser;
+use MoonShine\Permissions\Models\MoonshineUser;
 use App\MoonShine\MoonShineLayout;
 use MoonShine\Pages\ProfilePage;
 
@@ -75,12 +75,12 @@ return [
     ],
 
     'tinymce' => [
-        'file_manager' => false, // or 'laravel-filemanager' prefix for lfm
+        'file_manager' => env('MOONSHINE_TINYMCE_FILE_MANAGER', ''),
         'token' => env('MOONSHINE_TINYMCE_TOKEN', ''),
         'version' => env('MOONSHINE_TINYMCE_VERSION', '6'),
     ],
 
     'socialite' => [
-        // 'driver' => 'path_to_image_for_button'
+        'github' => '/images/icons/github-mark.svg'
     ],
 ];

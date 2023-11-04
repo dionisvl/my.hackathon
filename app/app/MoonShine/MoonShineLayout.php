@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine;
 
-use MoonShine\Components\Layout\{Content, Flash, Footer, Header, LayoutBlock, LayoutBuilder, Menu, Sidebar, TopBar};
+use App\MoonShine\Components\DemoVersionComponent;
+use MoonShine\Components\Layout\{Content, Flash, Footer, Header, LayoutBlock, LayoutBuilder, Menu, Sidebar};
 use MoonShine\Contracts\MoonShineLayoutContract;
 
 final class MoonShineLayout implements MoonShineLayoutContract
@@ -12,10 +13,11 @@ final class MoonShineLayout implements MoonShineLayoutContract
     public static function build(): LayoutBuilder
     {
         return LayoutBuilder::make([
-            TopBar::make([
-                Menu::make()->top(),
+            Sidebar::make([
+                Menu::make()->customAttributes(['class' => 'mt-2']),
             ]),
             LayoutBlock::make([
+                DemoVersionComponent::make(),
                 Flash::make(),
                 Header::make(),
                 Content::make(),
@@ -23,11 +25,12 @@ final class MoonShineLayout implements MoonShineLayoutContract
                         &copy; 2023 Made with ❤️ by
                         <a href=""
                             class="font-semibold text-primary hover:text-secondary"
+                            target="_blank"
                         >
                             Цифровой рекрутер
                         </a>
                     HTML)->menu([
-                    'https://moonshine.cutcode.dev' => 'Documentation',
+                    'https://moonshine-laravel.com' => 'Documentation',
                 ]),
             ])->customAttributes(['class' => 'layout-page']),
         ]);

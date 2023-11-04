@@ -1,59 +1,64 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Providers;
 
-use App\MoonShine\Pages\Statistics\CustomPage;
-use MoonShine\Providers\MoonShineApplicationServiceProvider;
-use MoonShine\MoonShine;
+use App\Models\Comment;
+use App\MoonShine\Resources\ArticleResource;
+use App\MoonShine\Resources\CategoryResource;
+use App\MoonShine\Resources\CommentResource;
+use App\MoonShine\Resources\DictionaryResource;
+use App\MoonShine\Resources\SettingResource;
+use App\MoonShine\Resources\UserResource;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
-use MoonShine\Resources\MoonShineUserResource;
+use MoonShine\Providers\MoonShineApplicationServiceProvider;
+use App\MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 
 class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
 {
-    protected function resources(): array
-    {
-        return [];
-    }
-
-    protected function pages(): array
-    {
-        return [
-            CustomPage::make('Title page', 'custom_page')
-                ->setTitle('New title')
-                ->setSubTitle('Subtitle')
-        ];
-    }
-
     protected function menu(): array
     {
         return [
-            MenuGroup::make(static fn() => __('moonshine::ui.resource.system'), [
-               MenuItem::make(
-                   static fn() => __('moonshine::ui.resource.admins_title'),
-                   new MoonShineUserResource()
-               ),
-               MenuItem::make(
-                   static fn() => __('moonshine::ui.resource.role_title'),
-                   new MoonShineUserRoleResource()
-               ),
-            ]),
+            MenuGroup::make('System', [
+                MenuItem::make('Settings', new SettingResource(), 'heroicons.outline.adjustments-vertical'),
+                MenuItem::make('Admins', new MoonShineUserResource(), 'heroicons.outline.users'),
+                MenuItem::make('Roles', new MoonShineUserRoleResource(), 'heroicons.outline.shield-exclamation'),
+            ], 'heroicons.outline.user-group')->canSee(static function () {
+                return auth('moonshine')->user()->moonshine_user_role_id === 1;
+            }),
 
-            MenuItem::make('Documentation', '')
-               ->badge(fn() => 'Check'),
+            MenuGroup::make('Blog', [
+                MenuItem::make('Categories', new CategoryResource(), 'heroicons.outline.document'),
+                MenuItem::make('Articles', new ArticleResource(), 'heroicons.outline.newspaper'),
+                MenuItem::make('Comments', new CommentResource(), 'heroicons.outline.chat-bubble-left')
+                    ->badge(fn () => (string) Comment::query()->count()),
+            ], 'heroicons.outline.newspaper'),
 
-            MenuItem::make('Custom page', CustomPage::make('Custom page', 'custom_page'))
+            MenuItem::make('Users', new UserResource(), 'heroicons.outline.users'),
+
+
+            MenuItem::make('Dictionary', new DictionaryResource(), 'heroicons.outline.document-duplicate'),
+
+            MenuItem::make(
+                'Documentation',
+                'https://moonshine-laravel.com',
+                'heroicons.outline.document-duplicate'
+            )->badge(static fn () => 'New design'),
         ];
     }
 
-    /**
-     * @return array{css: string, colors: array, darkColors: array}
-     */
     protected function theme(): array
     {
-        return [];
+        return [
+            'colors' => [
+                'primary' => '#5190fe',
+                'secondary' => '#b62982',
+            ],
+            'darkColors' => [
+                'primary' => '#5190fe',
+                'secondary' => '#b62982',
+            ]
+        ];
     }
 }

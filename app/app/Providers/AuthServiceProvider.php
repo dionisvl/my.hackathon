@@ -2,25 +2,34 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Policies\MoonShineUserPolicy;
+use App\Policies\MoonShineUserRolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use MoonShine\Models\MoonshineUser;
+use MoonShine\Models\MoonshineUserRole;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The model to policy mappings for the application.
+     * The policy mappings for the application.
      *
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        MoonshineUser::class => MoonShineUserPolicy::class,
+        MoonshineUserRole::class => MoonShineUserRolePolicy::class
     ];
 
     /**
      * Register any authentication / authorization services.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
+        $this->registerPolicies();
+
         //
     }
 }
