@@ -17,7 +17,7 @@ class DictionaryIndexPage extends IndexPage
     protected function mainLayer(): array
     {
         return [
-            Heading::make('Title'),
+            Heading::make('Title(Обучение и тренинги)'),
 
             ...parent::mainLayer()
         ];

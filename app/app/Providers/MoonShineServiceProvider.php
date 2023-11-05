@@ -20,31 +20,25 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     protected function menu(): array
     {
         return [
-            MenuGroup::make('System', [
-                MenuItem::make('Settings', new SettingResource(), 'heroicons.outline.adjustments-vertical'),
-                MenuItem::make('Admins', new MoonShineUserResource(), 'heroicons.outline.users'),
-                MenuItem::make('Roles', new MoonShineUserRoleResource(), 'heroicons.outline.shield-exclamation'),
+            MenuGroup::make('Администрирование', [
+                MenuItem::make('Администраторы', new MoonShineUserResource(), 'heroicons.outline.users'),
+                MenuItem::make('Права доступа', new MoonShineUserRoleResource(), 'heroicons.outline.shield-exclamation'),
+                MenuItem::make('Сотрудники', new UserResource(), 'heroicons.outline.users'),
+                MenuItem::make('Настройки', new SettingResource(), 'heroicons.outline.adjustments-vertical'),
             ], 'heroicons.outline.user-group')->canSee(static function () {
                 return auth('moonshine')->user()->moonshine_user_role_id === 1;
             }),
 
-            MenuGroup::make('Blog', [
-                MenuItem::make('Categories', new CategoryResource(), 'heroicons.outline.document'),
-                MenuItem::make('Articles', new ArticleResource(), 'heroicons.outline.newspaper'),
-                MenuItem::make('Comments', new CommentResource(), 'heroicons.outline.chat-bubble-left')
-                    ->badge(fn () => (string) Comment::query()->count()),
+            MenuGroup::make('Материалы', [
+                MenuItem::make('Статьи', new ArticleResource()),
+                MenuItem::make('Категории', new CategoryResource()),
             ], 'heroicons.outline.newspaper'),
 
-            MenuItem::make('Users', new UserResource(), 'heroicons.outline.users'),
+            MenuItem::make('Тесты', new DictionaryResource()),
+            MenuItem::make('Уведомления', new DictionaryResource()),
+            MenuItem::make('Поддержка', new DictionaryResource())->badge(static fn() => $countMessages = '3'),
+            MenuItem::make('Отчетность', new DictionaryResource()),
 
-
-            MenuItem::make('Dictionary', new DictionaryResource(), 'heroicons.outline.document-duplicate'),
-
-            MenuItem::make(
-                'Documentation',
-                'https://moonshine-laravel.com',
-                'heroicons.outline.document-duplicate'
-            )->badge(static fn () => 'New design'),
         ];
     }
 

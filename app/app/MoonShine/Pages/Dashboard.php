@@ -27,15 +27,15 @@ class Dashboard extends Page
 
     public function title(): string
     {
-        return 'Dashboard';
+        return 'Сервис онбординга и адаптации сотрудников';
     }
 
     public function components(): array
 	{
 		return [
             TextBlock::make(
-                'Welcome to MoonShine!',
-                'Demo version'
+                'Добро пожаловать на онбординг!',
+                'Демо версия'
             ),
 
             Grid::make([

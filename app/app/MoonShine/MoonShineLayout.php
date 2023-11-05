@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine;
 
 use App\MoonShine\Components\DemoVersionComponent;
-use MoonShine\Components\Layout\{Content, Flash, Footer, Header, LayoutBlock, LayoutBuilder, Menu, Sidebar};
+use MoonShine\Components\Layout\{Content, Flash, Footer, Header, LayoutBlock, LayoutBuilder, Menu, TopBar};
 use MoonShine\Contracts\MoonShineLayoutContract;
 
 final class MoonShineLayout implements MoonShineLayoutContract
@@ -13,8 +13,8 @@ final class MoonShineLayout implements MoonShineLayoutContract
     public static function build(): LayoutBuilder
     {
         return LayoutBuilder::make([
-            Sidebar::make([
-                Menu::make()->customAttributes(['class' => 'mt-2']),
+            TopBar::make([
+                Menu::make()->customAttributes(['class' => 'mt-2'])->top(),
             ]),
             LayoutBlock::make([
                 DemoVersionComponent::make(),
@@ -30,7 +30,7 @@ final class MoonShineLayout implements MoonShineLayoutContract
                             Цифровой рекрутер
                         </a>
                     HTML)->menu([
-                    'https://moonshine-laravel.com' => 'Documentation',
+                    'https://moonshine-laravel.com/docs/section/configuration' => 'Документация платформы',
                 ]),
             ])->customAttributes(['class' => 'layout-page']),
         ]);
