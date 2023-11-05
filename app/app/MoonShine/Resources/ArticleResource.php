@@ -214,12 +214,12 @@ class ArticleResource extends ModelResource
     {
         return [
             QueryTag::make(
-                'Article with author',
+                'Статьи с автором',
                 static fn (Builder $q) => $q->whereNotNull('author_id')
             ),
 
             QueryTag::make(
-                'Article without an author',
+                'Статьи без автора',
                 static fn (Builder $q) => $q->whereNull('author_id')
             )->icon('heroicons.outline.users'),
         ];

@@ -34,6 +34,11 @@ RUN pecl install xdebug \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# bash-completion
+RUN apt-get install -y nano bash-completion && rm -rf /var/lib/apt/lists/*
+# bash как оболочка по умолчанию
+SHELL ["/bin/bash", "-c"]
+
 # Clean up apt cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
