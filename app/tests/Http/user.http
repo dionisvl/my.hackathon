@@ -1,0 +1,9 @@
+POST http://hack.local/api/users
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "New User",
+    "email": "user@example.com",
+    "password": "secret"
+}
