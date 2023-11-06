@@ -1,12 +1,12 @@
 <?php
 
-use MoonShine\Exceptions\MoonShineNotFoundException;
 use App\MoonShine\Forms\LoginForm;
+use App\MoonShine\MoonShineLayout;
+use MoonShine\Exceptions\MoonShineNotFoundException;
 use MoonShine\Http\Middleware\Authenticate;
 use MoonShine\Http\Middleware\SecurityHeadersMiddleware;
-use MoonShine\Permissions\Models\MoonshineUser;
-use App\MoonShine\MoonShineLayout;
 use MoonShine\Pages\ProfilePage;
+use MoonShine\Permissions\Models\MoonshineUser;
 
 return [
     'dir' => 'app/MoonShine',
@@ -81,6 +81,6 @@ return [
     ],
 
     'socialite' => [
-        'github' => '/images/icons/github-mark.svg'
+        'vkontakte' => '/images/icons/vk.svg'
     ],
 ];

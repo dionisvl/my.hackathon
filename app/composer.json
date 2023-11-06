@@ -15,8 +15,9 @@
         "lee-to/laravel-thumbnails": "^1.0",
         "lee-to/moonshine-tree-resource": "^1.0",
         "moonshine/changelog": "^1.0",
-        "moonshine/permissions": "^1.0",
         "moonshine/moonshine": "2.0.0-rc.2",
+        "moonshine/permissions": "^1.0",
+        "socialiteproviders/vkontakte": "^5.0",
         "unisharp/laravel-filemanager": "^2.6"
     },
     "require-dev": {

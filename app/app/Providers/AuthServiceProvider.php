@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Policies\MoonShineUserPolicy;
 use App\Policies\MoonShineUserRolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use MoonShine\Models\MoonshineUser;
 use MoonShine\Models\MoonshineUserRole;
 

@@ -10,17 +10,17 @@ docker-down:
 	docker compose down --remove-orphans
 
 composer-install:
-	docker compose run --rm php-fpm composer install
+	docker compose exec php-fpm composer install
 
 migrate:
-	docker compose run --rm php-fpm php artisan migrate
+	docker compose exec php-fpm php artisan migrate
 migrate-seed:
-	docker compose run --rm php-fpm php artisan migrate --seed
+	docker compose exec php-fpm php artisan migrate --seed
 migrate-rollback:
-	docker compose run --rm php-fpm php artisan migrate:rollback
+	docker compose exec php-fpm php artisan migrate:rollback
 
 bash:
-	docker compose run --rm php-fpm /bin/bash
+	docker compose exec php-fpm /bin/bash
 sh:
 	docker compose exec php-fpm /bin/sh
 

@@ -3,7 +3,7 @@
         <div class="flex flex-wrap lg:flex-nowrap items-center">
             <div class="footer-logo order-0 basis-full sm:basis-1/2 lg:basis-1/3 shrink-0 text-center sm:text-left">
                 <a href="{{ route('home') }}" class="inline-block" rel="home">
-                <img src="{{ asset('images/logo.svg') }}" class="w-[155px] h-[38px]" alt="Лого">
+                    <img src="{{ asset('images/logo.png') }}" class="w-[155px] h-[38px]" alt="Лого">
                 </a>
             </div><!-- /.footer-logo -->
 

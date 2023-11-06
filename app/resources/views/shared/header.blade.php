@@ -3,7 +3,7 @@
         <div class="header-inner flex items-center">
             <div class="header-logo shrink-0">
                 <a href="{{ route('home') }}" rel="home">
-                <img src="{{ asset('images/logo.svg') }}"
+                    <img src="{{ asset('images/logo.png') }}"
                      class="w-[148px] md:w-[201px] h-[36px] md:h-[50px]"
                      alt="Лого"
                 >
