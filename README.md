@@ -14,6 +14,7 @@
 - fill all `MAIL_*` params in .env file
 - sudo chown -R www-data:www-data /var/www/my.hack/app/storage
 - sudo chown -R www-data:www-data /var/www/my.hack/app/bootstrap
+- sudo chmod 644 /var/www/my.hack/.docker/db/my.cnf
 - `make migrate`
 - Optional:
     see how to create demo items in `Factories.md` file.

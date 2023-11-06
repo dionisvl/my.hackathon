@@ -25,13 +25,14 @@ final class LoginForm
                         'autofocus' => true,
                         'autocomplete' => 'username',
                     ])
-                    ->default('admin@moonshine-laravel.com'),
+                    ->default('admin@admin.ru'),
 
                 Password::make(__('moonshine::ui.login.password'), 'password')
                     ->required()
-                    ->customAttributes([
-                        'value' => 'moonshine'
-                    ]),
+//                    ->customAttributes([
+//                        'value' => ''
+//                    ])
+                ,
 
                 Switcher::make(__('moonshine::ui.login.remember_me'), 'remember'),
             ])->submit(__('moonshine::ui.login.login'), [

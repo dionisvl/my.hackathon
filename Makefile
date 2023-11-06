@@ -14,6 +14,10 @@ composer-install:
 
 migrate:
 	docker compose run --rm php-fpm php artisan migrate
+migrate-seed:
+	docker compose run --rm php-fpm php artisan migrate --seed
+migrate-rollback:
+	docker compose run --rm php-fpm php artisan migrate:rollback
 
 bash:
 	docker compose run --rm php-fpm /bin/bash
