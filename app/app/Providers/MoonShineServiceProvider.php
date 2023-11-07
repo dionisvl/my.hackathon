@@ -2,17 +2,15 @@
 
 namespace App\Providers;
 
-use App\Models\Comment;
 use App\MoonShine\Resources\ArticleResource;
 use App\MoonShine\Resources\CategoryResource;
-use App\MoonShine\Resources\CommentResource;
 use App\MoonShine\Resources\DictionaryResource;
+use App\MoonShine\Resources\MaterialResource;
+use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\SettingResource;
-use App\MoonShine\Resources\UserResource;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
-use App\MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 
 class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
@@ -22,7 +20,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
         return [
             MenuGroup::make('Администрирование', [
                 MenuItem::make('Пользователи', new MoonShineUserResource(), 'heroicons.outline.users'),
-                MenuItem::make('Права доступа', new MoonShineUserRoleResource(), 'heroicons.outline.shield-exclamation'),
+                MenuItem::make('Роли', new MoonShineUserRoleResource(), 'heroicons.outline.shield-exclamation'),
 //                MenuItem::make('Сотрудники', new UserResource(), 'heroicons.outline.users'),
                 MenuItem::make('Настройки', new SettingResource(), 'heroicons.outline.adjustments-vertical'),
             ], 'heroicons.outline.user-group')->canSee(static function () {
@@ -30,6 +28,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             }),
 
             MenuGroup::make('Материалы', [
+                MenuItem::make('Учебные материалы', new MaterialResource()),
                 MenuItem::make('Статьи', new ArticleResource()),
                 MenuItem::make('Категории', new CategoryResource()),
             ], 'heroicons.outline.newspaper'),

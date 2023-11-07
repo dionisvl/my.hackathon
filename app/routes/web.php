@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\DictionaryController;
+use App\Http\Controllers\MaterialController;
 use Illuminate\Support\Facades\Route;
 use MoonShine\Http\Controllers\AsyncController;
 use MoonShine\Http\Controllers\AttachmentController;
@@ -27,6 +28,14 @@ Route::controller(ArticleController::class)
         Route::get('/', 'index')->name('index');
         Route::get('/{article:slug}', 'show')->name('show');
 });
+
+Route::controller(MaterialController::class)
+    ->name('materials.')
+    ->prefix('materials')->group(function () {
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/{material:id}', 'show')->name('show');
+    });
 
 Route::controller(DictionaryController::class)
     ->name('dictionaries.')

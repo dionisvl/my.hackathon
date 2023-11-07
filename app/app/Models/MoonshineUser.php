@@ -21,7 +21,6 @@ class MoonshineUser extends \MoonShine\Models\MoonshineUser
         'password',
         'name',
         'avatar',
-        'vk_id',
     ];
 
     protected $with = ['moonshineUserRole'];

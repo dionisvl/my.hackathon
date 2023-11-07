@@ -12,6 +12,7 @@
 - cp .env.example .env
 - composer install
 - fill all `MAIL_*` params in .env file
+- make sure that all params filled correctly in both files: `.env` and `app/.env`
 - sudo chown -R www-data:www-data /var/www/my.hack/app/storage
 - sudo chown -R www-data:www-data /var/www/my.hack/app/bootstrap
 - sudo chmod 644 /var/www/my.hack/.docker/db/my.cnf

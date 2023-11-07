@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages;
 
-use App\Models\Article;
-use App\Models\Comment;
-use App\MoonShine\Resources\ArticleResource;
-use App\MoonShine\Resources\CommentResource;
+use App\Models\Material;
+use App\Models\MoonshineUser;
+use App\Models\MoonshineUserRole;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
 use MoonShine\Decorations\TextBlock;
@@ -40,31 +39,33 @@ class Dashboard extends Page
 
             Grid::make([
                 Column::make([
-                    ValueMetric::make('Articles')
-                        ->value(Article::query()->count()),
+                    ValueMetric::make('Сотрудников на онбординге')
+                        ->value(MoonshineUser::query()
+                            ->where('moonshine_user_role_id', '=', MoonshineUserRole::WORKER_ROLE_ID)
+                            ->count()),
                 ])->columnSpan(6),
 
                 Column::make([
-                    ValueMetric::make('Comments')
-                        ->value(Comment::query()->count()),
+                    ValueMetric::make('Обучающих материалов')
+                        ->value(Material::query()->count()),
                 ])->columnSpan(6),
 
                 Column::make([
-                    DonutChartMetric::make('Подписчики')
+                    DonutChartMetric::make('Прогресс онбординга')
                         ->columnSpan(6)
-                        ->values(['DigitalHR' => 10000, 'Apple' => 9999]),
+                        ->values(['В процессе' => 100, 'Завершено' => 30]),
                 ])->columnSpan(6),
 
                 Column::make([
-                    LineChartMetric::make('Заказы')
+                    LineChartMetric::make('Кол-во изученного')
                         ->line([
-                            'Выручка 1' => [
+                            'Материалы' => [
                                 now()->format('Y-m-d') => 100,
                                 now()->addDay()->format('Y-m-d') => 200
                             ]
                         ])
                         ->line([
-                            'Выручка 2' => [
+                            'Тесты' => [
                                 now()->format('Y-m-d') => 300,
                                 now()->addDay()->format('Y-m-d') => 400
                             ]
