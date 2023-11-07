@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\ComponentAttributeBag;
 use MoonShine\ActionButtons\ActionButton;
-use MoonShine\Buttons\IndexPage\DeleteButton;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Collapse;
 use MoonShine\Decorations\Column;
@@ -24,9 +23,7 @@ use MoonShine\Decorations\Tabs;
 use MoonShine\Decorations\TextBlock;
 use MoonShine\Enums\PageType;
 use MoonShine\Fields\Color;
-use MoonShine\Fields\DateRange;
 use MoonShine\Fields\File;
-use MoonShine\Fields\Hidden;
 use MoonShine\Fields\HiddenIds;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Image;
@@ -49,7 +46,6 @@ use MoonShine\Handlers\ImportHandler;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\QueryTags\QueryTag;
 use MoonShine\Resources\ModelResource;
-use MoonShine\Resources\MoonShineUserResource;
 
 class ArticleResource extends ModelResource
 {
@@ -90,10 +86,10 @@ class ArticleResource extends ModelResource
 
                         LineBreak::make(),
 
-                        BelongsTo::make('Author', resource: new MoonShineUserResource())
-                            ->asyncSearch()
-                            ->canSee(fn () => auth()->user()->moonshine_user_role_id === 1)
-                            ->required(),
+//                        BelongsTo::make('Author', resource: new MoonShineUserResource())
+//                            ->asyncSearch()
+//                            ->canSee(fn () => auth()->user()->moonshine_user_role_id === 1)
+//                            ->required(),
 
                         Number::make('Comments', 'comments_count')
                             ->hideOnForm(),
@@ -179,7 +175,6 @@ class ArticleResource extends ModelResource
                                     ->hideOnIndex(),
 
                                 TinyMce::make('Description')
-                                    ->commentAuthor('Danil Shutsky')
                                     ->addPlugins('code codesample')
                                     ->addToolbar(' | code codesample')
                                     ->required()

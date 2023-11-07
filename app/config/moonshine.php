@@ -75,7 +75,8 @@ return [
     ],
 
     'tinymce' => [
-        'file_manager' => env('MOONSHINE_TINYMCE_FILE_MANAGER', ''),
+//        'file_manager' => env('MOONSHINE_TINYMCE_FILE_MANAGER', ''),
+        'file_manager' => 'laravel-filemanager',
         'token' => env('MOONSHINE_TINYMCE_TOKEN', ''),
         'version' => env('MOONSHINE_TINYMCE_VERSION', '6'),
     ],

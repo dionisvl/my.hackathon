@@ -4,12 +4,11 @@ namespace App\MoonShine\Resources;
 
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
-
 use MoonShine\Decorations\Block;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
-use MoonShine\Fields\ID;
 
 class CommentResource extends ModelResource
 {
@@ -25,7 +24,7 @@ class CommentResource extends ModelResource
             Block::make([
                 ID::make()->sortable(),
                 BelongsTo::make('Article'),
-                BelongsTo::make('User'),
+//                BelongsTo::make('User'),
                 Text::make('Text')->required(),
             ])
         ];

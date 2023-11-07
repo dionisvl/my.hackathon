@@ -91,8 +91,8 @@ class MaterialResource extends ModelResource
                         Tabs::make([
                             Tab::make('Content', [
                                 TinyMce::make('Content')
-                                    ->addPlugins('code codesample media imagetools autolink link image ')
-                                    ->addToolbar(' | code codesample | link image')
+                                    ->addPlugins('code codesample media imagetools autolink link image')
+                                    ->addToolbar(' | code codesample | insertfile link image media')
                                     ->required()
                                     ->hideOnIndex(),
                             ]),
