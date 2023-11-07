@@ -27,14 +27,6 @@ Route::controller(ArticleController::class)
 
         Route::get('/', 'index')->name('index');
         Route::get('/{article:slug}', 'show')->name('show');
-});
-
-Route::controller(MaterialController::class)
-    ->name('materials.')
-    ->prefix('materials')->group(function () {
-
-        Route::get('/', 'index')->name('index');
-        Route::get('/{material:id}', 'show')->name('show');
     });
 
 Route::controller(DictionaryController::class)
@@ -45,10 +37,18 @@ Route::controller(DictionaryController::class)
         Route::get('/{dictionary:slug}', 'show')->name('show');
     });
 
-Route::prefix(config('moonshine.route.prefix', ''))
+Route::prefix(config('moonshine.route.prefix', 'admin'))
     ->middleware('moonshine')
     ->as('moonshine.')->group(static function (): void {
         Route::middleware(config('moonshine.auth.middleware', []))->group(function (): void {
+
+            Route::prefix('materials')->controller(MaterialController::class)
+                ->name('materials.')
+                ->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('/{material:id}', 'show')->name('show');
+                });
+
             Route::prefix('resource/{resourceUri}')->group(function (): void {
                 Route::delete('crud', [CrudController::class, 'massDelete'])->name('crud.massDelete');
 

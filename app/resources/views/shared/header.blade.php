@@ -2,11 +2,8 @@
     <div class="container">
         <div class="header-inner flex items-center">
             <div class="header-logo shrink-0">
-                <a href="{{ route('home') }}" rel="home">
-                    <img src="{{ asset('images/logo.png') }}"
-                     class="w-[148px] md:w-[201px] h-[36px] md:h-[50px]"
-                     alt="Лого"
-                >
+                <a href="{{ url()->previous() }}" rel="home">
+                    🔙 Вернуться назад
                 </a>
             </div><!-- /.header-logo -->
 

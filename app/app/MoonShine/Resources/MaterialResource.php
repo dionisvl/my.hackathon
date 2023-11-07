@@ -63,7 +63,7 @@ class MaterialResource extends ModelResource
                     Block::make('Заголовок', [
                         ActionButton::make(
                             'Ссылка на просмотр материала',
-                            $this->getItem()?->getKey() ? route('materials.show', $this->getItem()) : '/',
+                            $this->getItem()?->getKey() ? route('moonshine.materials.show', $this->getItem()) : '/',
                         )
                             ->icon('heroicons.outline.paper-clip')
                             ->blank(),
@@ -155,8 +155,8 @@ class MaterialResource extends ModelResource
         return [
             ActionButton::make(
                 'Go to',
-                static fn(Material $model) => route('materials.show', $model)
-            )->icon('heroicons.outline.paper-clip'),
+                static fn(Material $model) => route('moonshine.materials.show', $model)
+            )->icon('heroicons.outline.document-arrow-down'),
         ];
     }
 

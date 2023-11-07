@@ -7,8 +7,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
+use MoonShine\Http\Controllers\MoonShineController;
 
-class MaterialController extends Controller
+class MaterialController extends MoonShineController
 {
     public function index(): View\Factory|View\View|Application
     {
@@ -16,14 +17,14 @@ class MaterialController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('materials.index', [
+        return view('moonshine.materials.index', [
             'materials' => $materials
         ]);
     }
 
     public function show(Material $material): View\View|\Illuminate\Foundation\Application|View\Factory|Application|RedirectResponse
     {
-        return view('materials.show', compact('material'));
+        return view('moonshine.materials.show', compact('material'));
     }
 
     public function upload(Request $request)

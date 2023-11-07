@@ -4,10 +4,6 @@
 
 @section('content')
     <div>
-        <img class="w-full rounded-xl my-8"
-             src=""
-             alt="{{ $material->title }}"/>
-
         <div class="prose
             min-w-full
             prose-img:rounded-xl

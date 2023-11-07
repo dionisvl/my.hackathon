@@ -93,7 +93,6 @@
   border: 0;
   box-shadow: 0 4px 0 rgba(255, 255, 255, 0.2);
   background-color: #FFF;
-  color: #1E1F43;
   font-size: 16px;
   font-weight: 600;
   transition: 0.3s ease;
@@ -158,8 +157,7 @@
 
 body {
   min-width: 320px;
-  background-color: #1E1F43;
-  color: #FFF;
+    background-color: #FFF;
 }
 
 a {
@@ -191,8 +189,7 @@ textarea._is-error {
 .filters-value._is-active {
   pointer-events: none;
   border-color: #EC4176;
-  background-color: #EC4176;
-  color: #FFF;
+    background-color: #f2f2f2;
 }
 
 .tasks-card-photo {

@@ -732,23 +732,19 @@ select {
   }
 }
 .prose {
-  color: var(--tw-prose-body);
   max-width: 65ch;
 }
 .prose :where([class~="lead"]):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-lead);
   font-size: 1.25em;
   line-height: 1.6;
   margin-top: 1.2em;
   margin-bottom: 1.2em;
 }
 .prose :where(a):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-links);
   text-decoration: underline;
   font-weight: 500;
 }
 .prose :where(strong):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-bold);
   font-weight: 600;
 }
 .prose :where(ol):not(:where([class~="not-prose"] *)) {
@@ -788,13 +784,10 @@ select {
 }
 .prose :where(ol > li):not(:where([class~="not-prose"] *))::marker {
   font-weight: 400;
-  color: var(--tw-prose-counters);
 }
 .prose :where(ul > li):not(:where([class~="not-prose"] *))::marker {
-  color: var(--tw-prose-bullets);
 }
 .prose :where(hr):not(:where([class~="not-prose"] *)) {
-  border-color: var(--tw-prose-hr);
   border-top-width: 1px;
   margin-top: 3em;
   margin-bottom: 3em;
@@ -817,7 +810,6 @@ select {
   content: close-quote;
 }
 .prose :where(h1):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
   font-weight: 800;
   font-size: 2.25em;
   margin-top: 0;
