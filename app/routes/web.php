@@ -115,6 +115,4 @@ Route::prefix(config('moonshine.route.prefix', ''))
         });
     });
 
-
-Route::get('/auth/vkontakte', 'Auth\LoginController@redirectToProvider');
-Route::get('/auth/vkontakte/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('/admin/resource/moon-shine-profile-resource/profile-page', HomeController::class)->name('moonshine.custom_page');

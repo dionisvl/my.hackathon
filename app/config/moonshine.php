@@ -81,6 +81,7 @@ return [
     ],
 
     'socialite' => [
-        'vkontakte' => '/images/icons/vk.svg'
+        'vkontakte' => '/images/icons/vk.svg',
+        'github' => '/images/icons/github-mark.svg',
     ],
 ];
