@@ -13,11 +13,11 @@ class OnboardingPlan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['role_id', 'title'];
+    protected $fillable = ['role_id', 'title', 'content'];
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(MoonshineUserRole::class);
     }
 
     public function materials(): HasMany

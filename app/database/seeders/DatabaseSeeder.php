@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Material;
 use App\Models\MoonshineUserRole;
+use App\Models\OnboardingPlan;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -76,8 +77,31 @@ class DatabaseSeeder extends Seeder
             'copyright' => now()->year
         ]);
 
+        $this->onboardingPlans();
         $this->materials();
         $this->courses();
+    }
+
+    private function onboardingPlans(): void
+    {
+        OnboardingPlan::query()->create([
+            'title' => 'План адаптации проектного менеджера',
+            'content' => '
+            - Welcome to the Proscom
+            - Деловой этикет онлайн и офлайн-встреч
+            - Познакомиться с нашим Boris Daily в Google Chat
+            ',
+            'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
+        ]);
+        OnboardingPlan::query()->create([
+            'title' => 'Онбординг QA специалиста',
+            'content' => '
+            - Welcome to the Proscom
+            - Деловой этикет QA и QA-auto
+            - Познакомиться с нашим QA Daily
+            ',
+            'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
+        ]);
     }
 
     private function materials(): void
@@ -93,7 +117,6 @@ class DatabaseSeeder extends Seeder
         Material::query()->create([
             'title' => 'Принципы ведения проектов и обязательные атрибуты',
             'content' => 'Материал класс 2022',
-
         ]);
     }
 

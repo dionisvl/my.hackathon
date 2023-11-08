@@ -25,10 +25,18 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('questions', static function (Blueprint $table) {
+        Schema::create('test_questions', static function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('test_id');
             $table->text('question');
+            $table->timestamps();
+        });
+
+        Schema::create('test_question_answers', static function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('test_question_id');
+            $table->text('answer');
+            $table->tinyInteger('is_right');
             $table->timestamps();
         });
 
@@ -49,7 +57,7 @@ return new class extends Migration {
         });
 
         // @see: https://laravel.com/docs/10.x/notifications
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('notifications', static function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('type');
             $table->morphs('notifiable');
@@ -108,16 +116,18 @@ return new class extends Migration {
 
         Schema::create('reports', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('report_type');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('title');
+            $table->string('report_type')->nullable();
             $table->text('report_data'); // This will hold serialized or JSON data depending on the type of reports
             $table->timestamps();
         });
 
         Schema::create('onboarding_plans', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('role_id')->nullable();// можно указать на какую профессию рассчитан данный план
             $table->string('title');
+            $table->text('content');
             $table->timestamps();
         });
 
@@ -143,7 +153,8 @@ return new class extends Migration {
     {
         Schema::dropIfExists('materials');
         Schema::dropIfExists('tests');
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('test_questions');
+        Schema::dropIfExists('test_question_answers');
         Schema::dropIfExists('user_materials');
         Schema::dropIfExists('user_tests');
         Schema::dropIfExists('settings');

@@ -23,16 +23,16 @@ class Course extends Model
 
     public function materials(): BelongsToMany
     {
-        return $this->belongsToMany(Material::class, 'course_materials');
+        return $this->belongsToMany(Material::class, 'course_materials', 'material_id', 'course_id');
     }
 
     public function tests(): BelongsToMany
     {
-        return $this->belongsToMany(Test::class, 'course_tests');
+        return $this->belongsToMany(Test::class, 'course_tests', 'test_id', 'course_id');
     }
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(MoonshineUser::class, 'course_tests');
+        return $this->belongsToMany(MoonshineUser::class, 'course_users', 'user_id', 'course_id');
     }
 }

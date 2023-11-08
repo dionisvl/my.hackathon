@@ -14,6 +14,7 @@ use MoonShine\Decorations\Grid;
 use MoonShine\Decorations\Heading;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
+use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 
@@ -29,7 +30,7 @@ class CourseResource extends ModelResource
             'title' => ['string', 'min:1'],
             'description' => ['string', 'min:1'],
             'start_at' => ['required', 'date'],
-            'deadline_at' => ['nullable|date'],
+            'deadline_at' => ['nullable', 'date'],
             'end_at' => ['required', 'date'],
         ];
     }
@@ -66,17 +67,32 @@ class CourseResource extends ModelResource
                     Block::make('Дата начала курса', [
                         Date::make('Дата начала курса', 'start_at')
                             ->format('Y-m-d H:i:s')
+                            ->withTime()
                     ]),
 
                     Block::make('Дедлайн курса (время рассылки уведомления)', [
                         Date::make('Дедлайн курса', 'deadline_at')
                             ->format('Y-m-d H:i:s')
+                            ->withTime()
                     ]),
 
                     Block::make('Дата окончания курса', [
                         Date::make('Дата окончания курса', 'end_at')
                             ->format('Y-m-d H:i:s')
+                            ->withTime()
                     ]),
+                ])->columnSpan(6),
+
+
+                Column::make([
+
+                    Block::make('', [
+                        BelongsToMany::make('Сотрудники на курсе', 'users', resource: new CourseUsersResource()),
+                        BelongsToMany::make('Учебные материалы курса', 'materials', resource: new CourseMaterialsResource()),
+                        BelongsToMany::make('Тесты этого курса', 'tests', resource: new CourseTestsResource()),
+//                            ->valuesQuery(fn($query) => $query->where('id', 1))
+                    ]),
+
                 ])->columnSpan(6),
 
             ]),
