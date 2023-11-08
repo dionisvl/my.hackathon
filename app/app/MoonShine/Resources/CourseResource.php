@@ -87,8 +87,13 @@ class CourseResource extends ModelResource
                 Column::make([
 
                     Block::make('', [
-                        BelongsToMany::make('Сотрудники на курсе', 'users', resource: new CourseUsersResource()),
-                        BelongsToMany::make('Учебные материалы курса', 'materials', resource: new CourseMaterialsResource()),
+                        BelongsToMany::make('Сотрудники на курсе', 'users', resource: new MoonshineUserResource()),
+                        BelongsToMany::make('Учебные материалы курса', 'materials', resource: new MaterialResource())
+//                        ->fields([
+//                            Text::make('Title'),
+//                            Text::make('Content'),
+//                        ])
+                        ,
                         BelongsToMany::make('Тесты этого курса', 'tests', resource: new CourseTestsResource()),
 //                            ->valuesQuery(fn($query) => $query->where('id', 1))
                     ]),

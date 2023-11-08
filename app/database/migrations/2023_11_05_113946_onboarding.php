@@ -22,6 +22,7 @@ return new class extends Migration {
         Schema::create('tests', static function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
 
@@ -36,7 +37,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('test_question_id');
             $table->text('answer');
-            $table->tinyInteger('is_right');
+            $table->tinyInteger('is_right')->default(0);
             $table->timestamps();
         });
 

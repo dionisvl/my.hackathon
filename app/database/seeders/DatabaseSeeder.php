@@ -36,28 +36,28 @@ class DatabaseSeeder extends Seeder
         ]);
 
         MoonshineUser::query()->create([
-            'name' => 'HR-manager',
+            'name' => 'Иван Администратор и HR-manager на пол ставки',
             'moonshine_user_role_id' => MoonshineUserRole::ADMIN_ROLE_ID,
             'email' => 'admin@admin.ru',
             'password' => bcrypt('admin@admin.ru1236541')
         ]);
 
         MoonshineUser::query()->create([
-            'name' => 'HR-Менеджер',
+            'name' => 'HR-Менеджер Анна Васильевна',
             'moonshine_user_role_id' => MoonshineUserRole::HR_ROLE_ID,
             'email' => 'hr@admin.ru',
             'password' => bcrypt('hr@admin.ru123654')
         ]);
 
         MoonshineUser::query()->create([
-            'name' => 'Менеджер',
+            'name' => 'Менеджер Иннокентий',
             'moonshine_user_role_id' => MoonshineUserRole::MANAGER_ROLE_ID,
             'email' => 'manager@admin.ru',
             'password' => bcrypt('manager@admin.ru123654')
         ]);
 
         MoonshineUser::query()->create([
-            'name' => 'Сотрудник',
+            'name' => 'Сотрудник просто Петрович',
             'moonshine_user_role_id' => MoonshineUserRole::WORKER_ROLE_ID,
             'email' => 'worker@admin.ru',
             'password' => bcrypt('worker@admin.ru123654')

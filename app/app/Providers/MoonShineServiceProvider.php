@@ -13,6 +13,8 @@ use App\MoonShine\Resources\MaterialResource;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\OnboardingPlanResource;
 use App\MoonShine\Resources\SettingResource;
+use App\MoonShine\Resources\TestQuestionAnswersResource;
+use App\MoonShine\Resources\TestQuestionsResource;
 use App\MoonShine\Resources\TestResource;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
@@ -47,7 +49,13 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Учебные курсы', new CourseResource(), 'heroicons.academic-cap'),
             ], 'heroicons.outline.newspaper'),
 
-            MenuItem::make('Тесты', new TestResource()),
+            MenuGroup::make('Тесты', [
+                MenuItem::make('Тесты', new TestResource()),
+                MenuItem::make('Вопросы к тестам', new TestQuestionsResource()),
+                MenuItem::make('Ответы к вопросам', new TestQuestionAnswersResource()),
+
+            ], 'heroicons.language'),
+
             MenuItem::make('Уведомления', new DictionaryResource()),
             MenuItem::make('Поддержка', new DictionaryResource())->badge(static fn() => $countMessages = '3'),
             MenuItem::make('Отчетность', new DictionaryResource()),
