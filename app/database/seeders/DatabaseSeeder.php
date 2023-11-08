@@ -8,7 +8,12 @@ use App\Models\Course;
 use App\Models\Material;
 use App\Models\MoonshineUserRole;
 use App\Models\OnboardingPlan;
+use App\Models\Test;
+use App\Models\TestQuestionAnswers;
+use App\Models\TestQuestions;
 use App\Models\User;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use MoonShine\Models\MoonshineUser;
@@ -19,8 +24,9 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      *
      * @return void
+     * @throws Exception
      */
-    public function run()
+    public function run(): void
     {
         MoonshineUserRole::query()->create([
             'id' => MoonshineUserRole::HR_ROLE_ID,
@@ -80,6 +86,8 @@ class DatabaseSeeder extends Seeder
         $this->onboardingPlans();
         $this->materials();
         $this->courses();
+        $this->tests();
+        $this->testUser();
     }
 
     private function onboardingPlans(): void
@@ -135,5 +143,127 @@ class DatabaseSeeder extends Seeder
             'start_at' => '2022-10-07 18:35:03',
             'end_at' => '2023-12-20 18:35:03',
         ]);
+    }
+
+    private function tests(): void
+    {
+        // Тест 1
+        $test1 = Test::query()->create([
+            'title' => 'Основы программирования',
+            'description' => 'Введение в основы программирования.',
+        ]);
+
+        // Вопросы и ответы для Теста 1
+        $questionsAnswers1 = [
+            [
+                'question' => 'Что такое переменная?',
+                'answers' => [
+                    ['answer' => 'Контейнер для хранения данных', 'is_right' => 1],
+                    ['answer' => 'Имя программы', 'is_right' => 0],
+                    ['answer' => 'Тип данных', 'is_right' => 0],
+                ],
+            ],
+            [
+                'question' => 'Что такое цикл?',
+                'answers' => [
+                    ['answer' => 'Повторяющаяся последовательность действий', 'is_right' => 1],
+                    ['answer' => 'Тип данных', 'is_right' => 0],
+                    ['answer' => 'Метод ввода данных', 'is_right' => 0],
+                ],
+            ],
+            [
+                'question' => 'Что такое функция?',
+                'answers' => [
+                    ['answer' => 'Блок кода, который можно вызвать по имени', 'is_right' => 1],
+                    ['answer' => 'Тип переменной', 'is_right' => 0],
+                    ['answer' => 'Способ организации кода', 'is_right' => 0],
+                ],
+            ],
+        ];
+
+        // Создание вопросов и ответов для Теста 1
+        foreach ($questionsAnswers1 as $qa) {
+            $question = TestQuestions::query()->create([
+                'test_id' => $test1->id,
+                'question' => $qa['question'],
+            ]);
+
+            foreach ($qa['answers'] as $answer) {
+                TestQuestionAnswers::query()->create([
+                    'test_question_id' => $question->id,
+                    'answer' => $answer['answer'],
+                    'is_right' => $answer['is_right'],
+                ]);
+            }
+        }
+
+        $test2 = Test::query()->create([
+            'title' => 'Основы продуктовой аналитики',
+            'description' => 'Введение в основы продуктовой аналитики.',
+        ]);
+
+        // Вопросы и ответы для Теста 2
+        $questionsAnswers2 = [
+            [
+                'question' => 'Что такое A/B тестирование?',
+                'answers' => [
+                    ['answer' => 'Метод сравнения двух вариантов продукта', 'is_right' => 1],
+                    ['answer' => 'Тестирование безопасности продукта', 'is_right' => 0],
+                    ['answer' => 'Тестирование производительности продукта', 'is_right' => 0],
+                ],
+            ],
+            [
+                'question' => 'Что такое воронка продаж?',
+                'answers' => [
+                    ['answer' => 'Модель, описывающая путь клиента от первого контакта до покупки', 'is_right' => 1],
+                    ['answer' => 'Список всех продаж продукта', 'is_right' => 0],
+                    ['answer' => 'Статистика продаж продукта', 'is_right' => 0],
+                ],
+            ],
+            [
+                'question' => 'Что такое KPI?',
+                'answers' => [
+                    ['answer' => 'Ключевые показатели эффективности', 'is_right' => 1],
+                    ['answer' => 'Код продукта', 'is_right' => 0],
+                    ['answer' => 'Категория продукта', 'is_right' => 0],
+                ],
+            ],
+        ];
+
+        // Создание вопросов и ответов для Теста 2
+        foreach ($questionsAnswers2 as $qa) {
+            $question = TestQuestions::query()->create([
+                'test_id' => $test2->id,
+                'question' => $qa['question'],
+            ]);
+
+            foreach ($qa['answers'] as $answer) {
+                TestQuestionAnswers::query()->create([
+                    'test_question_id' => $question->id,
+                    'answer' => $answer['answer'],
+                    'is_right' => $answer['is_right'],
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function testUser(): void
+    {
+        // Получаем случайные тесты
+        $tests = Test::inRandomOrder()->take(2)->get();
+        foreach ($tests as $test) {
+            DB::table('user_tests')->insert([
+                'user_id' => 1,
+                'test_id' => $test->id,
+                'result' => random_int(0, 100), // Случайный результат, например, в процентах
+                'completed_at' => Carbon::now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
     }
 }

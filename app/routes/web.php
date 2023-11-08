@@ -17,7 +17,7 @@ use MoonShine\Http\Controllers\RelationModelFieldController;
 use MoonShine\Http\Controllers\SocialiteController;
 use MoonShine\Http\Controllers\UpdateFieldController;
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return view('sveta.home');
 })->name('home');
 

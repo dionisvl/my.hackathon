@@ -25,19 +25,25 @@ return new class extends Migration {
             $table->string('description')->nullable();
             $table->timestamps();
         });
-
         Schema::create('test_questions', static function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('test_id');
             $table->text('question');
             $table->timestamps();
         });
-
         Schema::create('test_question_answers', static function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('test_question_id');
             $table->text('answer');
             $table->tinyInteger('is_right')->default(0);
+            $table->timestamps();
+        });
+        Schema::create('user_tests', static function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('test_id');
+            $table->decimal('result')->nullable();
+            $table->timestamp('completed_at')->nullable()->default(null);
             $table->timestamps();
         });
 
@@ -49,13 +55,6 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('user_tests', static function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('test_id');
-            $table->timestamp('completed_at')->nullable()->default(null);
-            $table->timestamps();
-        });
 
         // @see: https://laravel.com/docs/10.x/notifications
         Schema::create('notifications', static function (Blueprint $table) {
@@ -156,8 +155,8 @@ return new class extends Migration {
         Schema::dropIfExists('tests');
         Schema::dropIfExists('test_questions');
         Schema::dropIfExists('test_question_answers');
-        Schema::dropIfExists('user_materials');
         Schema::dropIfExists('user_tests');
+        Schema::dropIfExists('user_materials');
         Schema::dropIfExists('settings');
         Schema::dropIfExists('notifications');
         Schema::dropIfExists('courses');

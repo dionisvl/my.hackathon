@@ -10,5 +10,5 @@ class UserTest extends Model
     use HasFactory;
     public $incrementing = true;
 
-    protected $fillable = ['user_id', 'test_id', 'completed_at'];
+    protected $fillable = ['user_id', 'test_id', 'result', 'completed_at'];
 }

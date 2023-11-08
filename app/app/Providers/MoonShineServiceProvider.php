@@ -16,6 +16,7 @@ use App\MoonShine\Resources\SettingResource;
 use App\MoonShine\Resources\TestQuestionAnswersResource;
 use App\MoonShine\Resources\TestQuestionsResource;
 use App\MoonShine\Resources\TestResource;
+use App\MoonShine\Resources\UserTestResource;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
@@ -50,10 +51,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             ], 'heroicons.outline.newspaper'),
 
             MenuGroup::make('Тесты', [
+                MenuItem::make('Решение тестов', new UserTestResource()),
                 MenuItem::make('Тесты', new TestResource()),
                 MenuItem::make('Вопросы к тестам', new TestQuestionsResource()),
                 MenuItem::make('Ответы к вопросам', new TestQuestionAnswersResource()),
-
             ], 'heroicons.language'),
 
             MenuItem::make('Уведомления', new DictionaryResource()),
