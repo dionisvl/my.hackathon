@@ -12,6 +12,7 @@
 - cp .env.example .env
 - composer install
 - fill all `MAIL_*` params in .env file
+- `php artisan storage:link --relative`
 - make sure that all params filled correctly in both files: `.env` and `app/.env`
 - sudo chown -R www-data:www-data /var/www/my.hack/app/storage
 - sudo chown -R www-data:www-data /var/www/my.hack/app/bootstrap
@@ -24,6 +25,9 @@
 - git pull
 - php artisan config:clear
 
+### Создание ресурса админ-панели
+
+- php artisan moonshine:resource MyModel
 
 ### Cache
 ```

@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-
         Schema::create('materials', static function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('content');
+            $table->text('files')->nullable();
             $table->timestamps();
         });
 
@@ -61,6 +61,10 @@ return new class extends Migration {
         Schema::create('courses', static function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('description')->default('');
+            $table->timestamp('start_at')->default(now()->addWeek()->toDateString());
+            $table->timestamp('deadline_at')->nullable();
+            $table->timestamp('end_at')->default(now()->addYear()->toDateString());
             $table->timestamps();
         });
 
@@ -75,6 +79,13 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('test_id');
+            $table->timestamps();
+        });
+
+        Schema::create('course_users', static function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
 
@@ -130,6 +141,23 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::dropIfExists('materials');
+        Schema::dropIfExists('tests');
+        Schema::dropIfExists('questions');
+        Schema::dropIfExists('user_materials');
+        Schema::dropIfExists('user_tests');
+        Schema::dropIfExists('settings');
         Schema::dropIfExists('notifications');
+        Schema::dropIfExists('courses');
+        Schema::dropIfExists('course_materials');
+        Schema::dropIfExists('course_tests');
+        Schema::dropIfExists('course_users');
+        Schema::dropIfExists('support_tickets');
+        Schema::dropIfExists('support_responses');
+        Schema::dropIfExists('reports');
+        Schema::dropIfExists('onboarding_plans');
+        Schema::dropIfExists('plan_materials');
+        Schema::dropIfExists('plan_tests');
+        Schema::dropIfExists('settings');
     }
 };

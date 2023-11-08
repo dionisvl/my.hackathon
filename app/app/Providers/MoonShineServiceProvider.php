@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\MoonShine\Resources\ArticleResource;
 use App\MoonShine\Resources\CategoryResource;
+use App\MoonShine\Resources\CourseResource;
 use App\MoonShine\Resources\DictionaryResource;
 use App\MoonShine\Resources\MaterialResource;
 use App\MoonShine\Resources\MoonShineUserResource;
@@ -26,11 +27,13 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             ], 'heroicons.outline.user-group')->canSee(static function () {
                 return auth('moonshine')->user()->moonshine_user_role_id === 1;
             }),
-
-            MenuGroup::make('Материалы', [
-                MenuItem::make('Учебные материалы', new MaterialResource()),
+            MenuGroup::make('Демо', [
                 MenuItem::make('Статьи', new ArticleResource()),
                 MenuItem::make('Категории', new CategoryResource()),
+            ], 'heroicons.outline.gift'),
+            MenuGroup::make('Онбординг и адаптация', [
+                MenuItem::make('Учебные материалы', new MaterialResource(), 'heroicons.cursor-arrow-ripple'),
+                MenuItem::make('Учебные курсы', new CourseResource(), 'heroicons.academic-cap'),
             ], 'heroicons.outline.newspaper'),
 
             MenuItem::make('Тесты', new DictionaryResource()),

@@ -4,11 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\Category;
-use App\Models\Setting;
+use App\Models\Course;
+use App\Models\Material;
+use App\Models\MoonshineUserRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\MoonshineUserRole;
 use MoonShine\Models\MoonshineUser;
 
 class DatabaseSeeder extends Seeder
@@ -73,6 +74,43 @@ class DatabaseSeeder extends Seeder
             'email' => fake()->email(),
             'phone' => fake()->e164PhoneNumber(),
             'copyright' => now()->year
+        ]);
+
+        $this->materials();
+        $this->courses();
+    }
+
+    private function materials(): void
+    {
+        Material::query()->create([
+            'title' => 'Зона ответственности проектного менеджера',
+            'content' => 'Знания и компетенции хорошего менеджера проектов должны быть достаточно широки для того, чтобы грамотно управлять проектами на специфическом рынке. Но прежде чем залезать в соседние области знаний, нужно бесперебойно покрывать основную зону ответственности ПМа.
+Ниже чек лист обязанностей, выполнение которых должно быть доведено до автоматизма.
+Некоторые задачи должны выполняться совместно с командой. Только так они будут сделаны быстро и качественно, поэтому не геройствуйте и не пытайтесь тянуть их в одиночку.
+',
+//            'files' => '',
+        ]);
+        Material::query()->create([
+            'title' => 'Принципы ведения проектов и обязательные атрибуты',
+            'content' => 'Материал класс 2022',
+
+        ]);
+    }
+
+    private function courses(): void
+    {
+        Course::query()->create([
+            'title' => 'Project Management - PROSCOM новый курс, обновлённый 2022',
+            'description' => 'Это наш новый курс прям доработанный , все учтено',
+            'start_at' => '2022-11-07 18:35:03',
+            'deadline_at' => '2023-11-09 18:35:03',
+            'end_at' => '2023-11-20 18:35:03',
+        ]);
+        Course::query()->create([
+            'title' => 'Design - Proscom обычный курс, 2023',
+            'description' => 'новый курс доработанный',
+            'start_at' => '2022-10-07 18:35:03',
+            'end_at' => '2023-12-20 18:35:03',
         ]);
     }
 }

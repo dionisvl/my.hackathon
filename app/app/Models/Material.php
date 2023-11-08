@@ -10,7 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Material extends Model
 {
-    protected $fillable = ['title', 'content'];
+    protected $fillable = [
+        'title',
+        'content',
+        'file_link',
+        'files',
+    ];
+
+    protected $casts = [
+        'files' => 'collection',
+    ];
 
     public function users(): BelongsToMany
     {

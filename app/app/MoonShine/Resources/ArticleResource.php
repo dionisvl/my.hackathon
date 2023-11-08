@@ -20,11 +20,9 @@ use MoonShine\Decorations\Heading;
 use MoonShine\Decorations\LineBreak;
 use MoonShine\Decorations\Tab;
 use MoonShine\Decorations\Tabs;
-use MoonShine\Decorations\TextBlock;
 use MoonShine\Enums\PageType;
 use MoonShine\Fields\Color;
 use MoonShine\Fields\File;
-use MoonShine\Fields\HiddenIds;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Json;
@@ -314,19 +312,19 @@ class ArticleResource extends ModelResource
     public function buttons(): array
     {
         return [
-            ActionButton::make('Active', route('moonshine.articles.mass-active', $this->uriKey()))
-                ->inModal(fn () => 'Active', fn (): string => (string) form(
-                    route('moonshine.articles.mass-active', $this->uriKey()),
-                    fields: [
-                        HiddenIds::make(),
-                        TextBlock::make('', __('moonshine::ui.confirm_message')),
-                        Text::make('To confirm, write "yes"', 'confirm')
-                            ->customAttributes(['placeholder' => 'Or no']),
-                    ]
-                )
-                    ->async()
-                    ->submit(__('moonshine::ui.delete'), ['class' => 'btn-secondary']))
-                ->bulk(),
+//            ActionButton::make('Active', route('moonshine.articles.mass-active', $this->uriKey()))
+//                ->inModal(fn () => 'Active', fn (): string => (string) form(
+//                    route('moonshine.articles.mass-active', $this->uriKey()),
+//                    fields: [
+//                        HiddenIds::make(),
+//                        TextBlock::make('', __('moonshine::ui.confirm_message')),
+//                        Text::make('To confirm, write "yes"', 'confirm')
+//                            ->customAttributes(['placeholder' => 'Or no']),
+//                    ]
+//                )
+//                    ->async()
+//                    ->submit(__('moonshine::ui.delete'), ['class' => 'btn-secondary']))
+//                ->bulk(),
 
             ActionButton::make(
                 'Go to',

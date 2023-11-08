@@ -17,7 +17,9 @@ use MoonShine\Decorations\LineBreak;
 use MoonShine\Decorations\Tab;
 use MoonShine\Decorations\Tabs;
 use MoonShine\Enums\PageType;
+use MoonShine\Fields\File;
 use MoonShine\Fields\ID;
+use MoonShine\Fields\StackFields;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\TinyMce;
 use MoonShine\Metrics\ValueMetric;
@@ -83,6 +85,17 @@ class MaterialResource extends ModelResource
                         ]),
 
                     ]),
+
+                    Block::make('Учебные материалы в виде файлов', [
+                        StackFields::make('Files')->fields([
+                            File::make('Files')
+                                ->disk('public')
+                                ->multiple()
+                                ->removable()
+                                ->dir('materials'),
+                        ]),
+                    ]),
+
                 ])->columnSpan(6),
 
                 Column::make([
