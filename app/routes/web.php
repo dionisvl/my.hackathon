@@ -18,7 +18,7 @@ use MoonShine\Http\Controllers\SocialiteController;
 use MoonShine\Http\Controllers\UpdateFieldController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('sveta.home');
 })->name('home');
 
 Route::controller(ArticleController::class)
