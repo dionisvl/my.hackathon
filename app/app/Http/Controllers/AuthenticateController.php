@@ -8,6 +8,7 @@ use App\Http\Requests\LoginFormRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use MoonShine\Forms\LoginForm;
 use MoonShine\Http\Controllers\MoonShineController;
@@ -17,6 +18,7 @@ class AuthenticateController extends MoonShineController
     public function login(): View|RedirectResponse
     {
         if ($this->auth()->check()) {
+            $this->log();
             return to_route('moonshine.index');
         }
 
@@ -33,6 +35,7 @@ class AuthenticateController extends MoonShineController
     public function authenticate(LoginFormRequest $request): RedirectResponse
     {
         $request->authenticate();
+        $this->log();
         return redirect()->intended(route('moonshine.index'));
     }
 
@@ -44,5 +47,10 @@ class AuthenticateController extends MoonShineController
         $request->session()->regenerateToken();
 
         return to_route('moonshine.login');
+    }
+
+    private function log(): void
+    {
+        Log::info('User with ID=' . $this->auth()->id() . ' authenticated to system. ');
     }
 }
