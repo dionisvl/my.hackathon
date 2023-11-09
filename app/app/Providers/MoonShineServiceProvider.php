@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\MoonShine\Pages\Monitoring\Monitoring;
 use App\MoonShine\Resources\ArticleResource;
 use App\MoonShine\Resources\CategoryResource;
 use App\MoonShine\Resources\CourseMaterialsResource;
@@ -60,8 +61,8 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             MenuItem::make('Уведомления', new DictionaryResource()),
             MenuItem::make('Поддержка', new DictionaryResource())->badge(static fn() => $countMessages = '3'),
             MenuItem::make('Отчетность', new DictionaryResource()),
-
-
+            // Кастомная страница
+            MenuItem::make('Мониторинг обучения', Monitoring::make('Мониторинг обучения', 'monitoring'))
         ];
     }
 
