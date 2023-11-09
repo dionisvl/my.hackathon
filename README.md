@@ -8,26 +8,34 @@
 
 ## How to Install
 
-- git clone THIS_REPO
-- cp .env.example .env
-- composer install
-- fill all `MAIL_*` params in .env file
+- Install Docker and Compose plugin https://docs.docker.com/engine/install/
+- `mkdir /var/www/my.hack` and `cd /var/www/my.hack`
+- add `127.0.0.1 hack.local` to your hosts file
+- `git clone THIS_REPO ./`
+- `cp .env.example .env`
+- `cp app/.env.example app/.env`
+- fill all `MAIL_*` params in `app/.env` file
+- make sure that ALL params filled correctly in both files: `.env` and `app/.env`
+- `make composer-install`
 - `php artisan storage:link --relative`
-- make sure that all params filled correctly in both files: `.env` and `app/.env`
-- sudo chown -R www-data:www-data /var/www/my.hack/app/storage
-- sudo chown -R www-data:www-data /var/www/my.hack/app/bootstrap
-- sudo chmod 644 /var/www/my.hack/.docker/db/my.cnf
-- `make migrate`
+- `sudo chown -R www-data:www-data /var/www/my.hack/app/storage`
+- `sudo chown -R www-data:www-data /var/www/my.hack/app/bootstrap`
+- `sudo chmod 644 /var/www/my.hack/.docker/db/my.cnf`
+- `make migrate-seed`
 - Optional:
     see how to create demo items in `Factories.md` file.
 
 ### Deployment
-- git pull
-- php artisan config:clear
+
+- `make down`
+- `git pull`
+- `docker compose up --build -d`
+- optional: `make composer-install`
+- optional: `make migrate`
 
 ### Создание ресурса админ-панели
 
-- php artisan moonshine:resource MyModel
+- `php artisan moonshine:resource MyModel`
 
 ### Cache
 ```
@@ -35,3 +43,7 @@ php artisan optimize:clear
 composer dump-autoload
 composer cc
 ```
+
+### Как войти в контейнер самого приложения
+
+- `make bash`

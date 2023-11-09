@@ -7,7 +7,9 @@ namespace App\MoonShine\Pages;
 use App\Models\Material;
 use App\Models\MoonshineUser;
 use App\Models\MoonshineUserRole;
+use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Divider;
 use MoonShine\Decorations\Grid;
 use MoonShine\Decorations\TextBlock;
 use MoonShine\Metrics\DonutChartMetric;
@@ -30,22 +32,40 @@ class Dashboard extends Page
     }
 
     public function components(): array
-	{
-		return [
-            TextBlock::make(
-                'Добро пожаловать на онбординг!',
-                'Демо версия'
-            ),
+    {
+        $helloText = '';
+        if (isAdmin()) {
+            $helloText = 'Вы являетесь администратором системы. Поэтому вам доступна расширенная функциональность.
+            У вас есть доступ на удаление всех сущностей.';
+        } else {
+            $helloText = 'Уважаемый сотрудник, добро пожаловать в нашу систему обординга, желаем успехов в изучении материала и сдачи тестов';
+        }
+        $course = MoonshineUser::with('courses')->where('id', auth()->id())->first()->courses->first();
+        $courseString = $course->title ?? 'Курс адаптации не назначен, обратитесь к руководителю';
 
+        return [
+            Block::make('', [
+                TextBlock::make(
+                    'Добро пожаловать на онбординг! ',
+                    'Демо версия. ' . $helloText
+                ),
+            ]),
+            Divider::make(),
             Grid::make([
+                Column::make([
+                    ValueMetric::make('Ваша должность')
+                        ->value(MoonshineUser::query()->where('id', auth()->id())->first()->role->name),
+                    ValueMetric::make('Автоматически назначенный вам курс обучения')
+                        ->value($courseString),
+
+                ])->columnSpan(6),
+
                 Column::make([
                     ValueMetric::make('Сотрудников на онбординге')
                         ->value(MoonshineUser::query()
                             ->where('moonshine_user_role_id', '=', MoonshineUserRole::WORKER_ROLE_ID)
                             ->count()),
-                ])->columnSpan(6),
 
-                Column::make([
                     ValueMetric::make('Обучающих материалов')
                         ->value(Material::query()->count()),
                 ])->columnSpan(6),
@@ -73,5 +93,5 @@ class Dashboard extends Page
                 ])->columnSpan(6)
             ]),
         ];
-	}
+    }
 }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseRole;
 use App\Models\Material;
 use App\Models\MoonshineUserRole;
 use App\Models\OnboardingPlan;
@@ -89,6 +90,7 @@ class DatabaseSeeder extends Seeder
         $this->courses();
         $this->tests();
         $this->testUser();
+        $this->courseRoles();
 
     }
 
@@ -267,5 +269,25 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         UserTest::Factory(10)->create();
+    }
+
+    private function courseRoles(): void
+    {
+        CourseRole::query()->create([
+            'course_id' => 1,
+            'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
+        ]);
+        CourseRole::query()->create([
+            'course_id' => 2,
+            'role_id' => MoonshineUserRole::MANAGER_ROLE_ID,
+        ]);
+        CourseRole::query()->create([
+            'course_id' => 1,
+            'role_id' => MoonshineUserRole::HR_ROLE_ID,
+        ]);
+        CourseRole::query()->create([
+            'course_id' => 2,
+            'role_id' => MoonshineUserRole::HR_ROLE_ID,
+        ]);
     }
 }

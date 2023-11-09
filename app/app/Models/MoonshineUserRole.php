@@ -21,4 +21,10 @@ class MoonshineUserRole extends \MoonShine\Models\MoonshineUserRole
     final public const MANAGER_ROLE_ID = 3;
     // Сотрудник
     final public const WORKER_ROLE_ID = 4;
+
+    // Связь с курсами
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_roles', 'role_id', 'course_id');
+    }
 }

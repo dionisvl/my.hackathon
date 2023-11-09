@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Models\MoonshineUser;
 use Illuminate\Validation\Rule;
 use MoonShine\Attributes\Icon;
 use MoonShine\Decorations\Block;
@@ -18,7 +19,6 @@ use MoonShine\Fields\Password;
 use MoonShine\Fields\PasswordRepeat;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
-use MoonShine\Permissions\Models\MoonshineUser;
 use MoonShine\Models\MoonshineUserRole;
 use MoonShine\Permissions\Traits\WithPermissions;
 use MoonShine\Resources\ModelResource;

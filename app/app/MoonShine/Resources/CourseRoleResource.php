@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use App\Models\CourseTests;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CourseRole;
+
+use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
-use MoonShine\Resources\ModelResource;
 
-class CourseTestsResource extends ModelResource
+class CourseRoleResource extends ModelResource
 {
-    protected string $model = CourseTests::class;
+    protected string $model = CourseRole::class;
 
-    protected string $title = 'Тесты для курса';
+    protected string $title = 'CourseRoles';
 
     public function fields(): array
     {

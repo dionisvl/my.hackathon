@@ -38,7 +38,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Связи курсов с тестами', new CourseTestsResource()),
 
             ], 'heroicons.outline.user-group')->canSee(static function () {
-                return auth('moonshine')->user()->moonshine_user_role_id === 1;
+                return isAdmin();
             }),
             MenuGroup::make('Демо', [
                 MenuItem::make('Статьи', new ArticleResource()),

@@ -50,7 +50,10 @@ class CourseResource extends ModelResource
                             Heading::make('Title'),
 
                             Flex::make('flex-titles', [
-                                Text::make('Title')
+                                Text::make('Название курса', 'title')
+                                    ->useOnImport()
+                                    ->showOnExport()
+                                    ->sortable()
                                     ->withoutWrapper()
                                     ->required(),
                             ])
@@ -61,25 +64,34 @@ class CourseResource extends ModelResource
                     ]),
 
                     Block::make('Описание', [
-                        Text::make('description'),
+                        Text::make('Описание', 'description'),
                     ]),
 
                     Block::make('Дата начала курса', [
                         Date::make('Дата начала курса', 'start_at')
                             ->format('Y-m-d H:i:s')
                             ->withTime()
+                            ->useOnImport()
+                            ->showOnExport()
+                            ->sortable()
                     ]),
 
                     Block::make('Дедлайн курса (время рассылки уведомления)', [
                         Date::make('Дедлайн курса', 'deadline_at')
                             ->format('Y-m-d H:i:s')
                             ->withTime()
+                            ->useOnImport()
+                            ->showOnExport()
+                            ->sortable()
                     ]),
 
                     Block::make('Дата окончания курса', [
                         Date::make('Дата окончания курса', 'end_at')
                             ->format('Y-m-d H:i:s')
                             ->withTime()
+                            ->useOnImport()
+                            ->showOnExport()
+                            ->sortable()
                     ]),
                 ])->columnSpan(6),
 
@@ -87,14 +99,15 @@ class CourseResource extends ModelResource
                 Column::make([
 
                     Block::make('', [
-                        BelongsToMany::make('Сотрудники на курсе', 'users', resource: new MoonshineUserResource()),
+                        BelongsToMany::make('Для каких профессий/должностей предназначен курс', 'roles', static fn($item) => "$item->id. $item->name", resource: new CourseRoleResource()),
+                        BelongsToMany::make('Сотрудники на курсе', 'users', static fn($item) => "$item->id. $item->name", resource: new MoonshineUserResource()),
                         BelongsToMany::make('Учебные материалы курса', 'materials', resource: new MaterialResource())
 //                        ->fields([
 //                            Text::make('Title'),
 //                            Text::make('Content'),
 //                        ])
                         ,
-                        BelongsToMany::make('Тесты этого курса', 'tests', resource: new CourseTestsResource()),
+                        BelongsToMany::make('Тесты этого курса', 'tests', static fn($item) => (string)$item->title, resource: new CourseTestsResource()),
 //                            ->valuesQuery(fn($query) => $query->where('id', 1))
                     ]),
 
