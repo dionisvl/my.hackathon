@@ -12,6 +12,7 @@ use App\Models\Test;
 use App\Models\TestQuestionAnswers;
 use App\Models\TestQuestions;
 use App\Models\User;
+use App\Models\UserTest;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Seeder;
@@ -88,6 +89,7 @@ class DatabaseSeeder extends Seeder
         $this->courses();
         $this->tests();
         $this->testUser();
+
     }
 
     private function onboardingPlans(): void
@@ -264,6 +266,6 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         }
-
+        UserTest::Factory(10)->create();
     }
 }
