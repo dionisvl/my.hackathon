@@ -6,6 +6,7 @@ namespace App\MoonShine\Resources;
 
 use App\Models\Test;
 use Illuminate\Database\Eloquent\Model;
+use MoonShine\ActionButtons\ActionButton;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
@@ -53,6 +54,16 @@ class TestResource extends ModelResource
         return [
             'title' => ['required', 'string', 'min:1'],
 //            'description' => ['string', 'min:1'],
+        ];
+    }
+
+    public function buttons(): array
+    {
+        return [
+            ActionButton::make(
+                'Пройти этот тест',
+                static fn(Test $model) => route('moonshine.tests.start', $model)
+            )->icon('heroicons.outline.paper-clip'),
         ];
     }
 }

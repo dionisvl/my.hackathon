@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\DictionaryController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\UserTestController;
 use Illuminate\Support\Facades\Route;
 use MoonShine\Http\Controllers\AsyncController;
 use MoonShine\Http\Controllers\AttachmentController;
@@ -47,6 +48,14 @@ Route::prefix(config('moonshine.route.prefix', 'admin'))
                 ->group(function () {
                     Route::get('/', 'index')->name('index');
                     Route::get('/{material:id}', 'show')->name('show');
+                });
+
+            Route::prefix('tests')->controller(UserTestController::class)
+                ->name('tests.')
+                ->group(function () {
+                    Route::get('/start/{test:id}', 'start')->name('start');
+                    Route::post('/answer/{testId:id}', 'answer')->name('answer');
+                    Route::get('/result/{userTest:id}', 'result')->name('result');
                 });
 
             Route::prefix('resource/{resourceUri}')->group(function (): void {

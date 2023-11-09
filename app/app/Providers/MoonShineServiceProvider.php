@@ -51,10 +51,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             ], 'heroicons.outline.newspaper'),
 
             MenuGroup::make('Тесты', [
-                MenuItem::make('Решение тестов', new UserTestResource()),
                 MenuItem::make('Тесты', new TestResource()),
                 MenuItem::make('Вопросы к тестам', new TestQuestionsResource()),
                 MenuItem::make('Ответы к вопросам', new TestQuestionAnswersResource()),
+                MenuItem::make('Результаты тестов', new UserTestResource()),
             ], 'heroicons.language'),
 
             MenuItem::make('Уведомления', new DictionaryResource()),

@@ -35,8 +35,7 @@ class TestQuestionsResource extends ModelResource
 
             Grid::make([
                 Column::make([
-
-                    BelongsTo::make('Вопрос относится к тесту:', 'test', resource: new TestResource())
+                    BelongsTo::make('Вопрос относится к тесту:', 'test', static fn($item) => "$item->id. $item->title", resource: new TestResource())
                         ->required(),
 
                     Block::make('Вопрос', [

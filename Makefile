@@ -33,5 +33,12 @@ npx-mix:
 npm-run-prod:
 	docker compose run --rm node npm run prod
 
+config:
+	docker compose exec php-fpm php artisan config:cache
+cache-all:
+	docker compose exec php-fpm php artisan optimize:clear
 a:
 	sudo chmod 777 -R /var/www/my.hack/app
+
+routes:
+	docker compose exec php-fpm php artisan route:list

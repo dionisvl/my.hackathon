@@ -795,7 +795,6 @@ select {
 .prose :where(blockquote):not(:where([class~="not-prose"] *)) {
   font-weight: 500;
   font-style: italic;
-  color: var(--tw-prose-quotes);
   border-left-width: 0.25rem;
   border-left-color: var(--tw-prose-quote-borders);
   quotes: "\201C""\201D""\2018""\2019";
@@ -952,7 +951,7 @@ select {
   --tw-prose-bullets: #d1d5db;
   --tw-prose-hr: #e5e7eb;
   --tw-prose-quotes: #111827;
-  --tw-prose-quote-borders: #e5e7eb;
+    --tw-prose-quote-borders: rgba(11, 11, 30, 0.66);
   --tw-prose-captions: #6b7280;
   --tw-prose-code: #111827;
   --tw-prose-pre-code: #e5e7eb;

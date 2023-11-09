@@ -38,7 +38,7 @@ class TestQuestionAnswersResource extends ModelResource
                         Checkbox::make('Это правильный ответ', 'is_right')
                     ]),
 
-                    BelongsTo::make('Ответ относится к вопросу:', 'question', resource: new TestQuestionsResource())
+                    BelongsTo::make('Ответ относится к вопросу:', 'question', static fn($item) => "$item->id. $item->question", new TestQuestionsResource())
                         ->required(),
 
                     Block::make('Ответ', [

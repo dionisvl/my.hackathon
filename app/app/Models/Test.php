@@ -24,4 +24,9 @@ class Test extends Model
             ->withPivot('completed_at')
             ->withTimestamps();
     }
+
+    public function userTest(): HasMany
+    {
+        return $this->hasMany(UserTest::class);
+    }
 }

@@ -2,16 +2,16 @@
     <div class="container">
         <div class="header-inner flex items-center">
             <div class="header-logo shrink-0">
+                @include('moonshine.components.backToAdmin')
+                @include('moonshine.components.bootstrap')
                 <a href="{{ url()->previous() }}" rel="home">
-                    🔙 Вернуться назад
+                    🔙 Назад
                 </a>
             </div><!-- /.header-logo -->
 
             <div class="header-menu grow flex justify-start ml-8 mr-8">
                 <nav class="inline-block hidden lg:block">
-                    <a href="{{ route('articles.index') }}" class="ml-4 mr-4 text-{{ request()->routeIs('articles.*') ? 'pink' : 'white' }} hover:text-pink font-bold">
-                        Блог
-                    </a>
+
                 </nav>
             </div><!-- /.header-menu -->
 
