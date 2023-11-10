@@ -105,4 +105,35 @@ class MoonshineUser extends \MoonShine\Models\MoonshineUser
 
         return $allMaterialsViewed && $allTestsPassed;
     }
+
+    public static function getCountStat(): array
+    {
+        $users = self::all();
+        $countFinished = 0;
+        $countProcess = 0;
+
+        foreach ($users as $user) {
+            $course = $user->courses()->first();
+            if ($course === null || $course->materials === null) {
+                $countProcess++;
+                continue;
+            }
+            $allMaterialsViewed = $course->materials->every(function ($material) use ($user) {
+                return $user->materials->where('material_id', $material->id)->whereNotNull('viewed_at');
+            });
+            $allTestsPassed = $course->tests->every(function ($test) use ($user) {
+                $userTest = $user->tests->where('test_id', $test->id)->first();
+                return $userTest && $userTest->result >= UserTest::PASS_THRESHOLD;
+            });
+
+            if ($allMaterialsViewed && $allTestsPassed) {
+                $countFinished++;
+            } else {
+                $countProcess++;
+            }
+        }
+
+        return [$countProcess, $countFinished];
+
+    }
 }

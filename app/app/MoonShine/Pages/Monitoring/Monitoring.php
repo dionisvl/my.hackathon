@@ -6,7 +6,8 @@ namespace App\MoonShine\Pages\Monitoring;
 
 use App\Models\Material;
 use App\Models\MoonshineUser;
-use App\Models\MoonshineUserRole;
+use App\Models\UserMaterial;
+use App\Models\UserTest;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
 use MoonShine\Metrics\DonutChartMetric;
@@ -30,37 +31,38 @@ class Monitoring extends Page
 
     public function components(): array
     {
+        [$countFinished, $countProcess] = MoonshineUser::getCountStat();
+        $materialStat = UserMaterial::getStat();
+        $testStat = UserTest::getStat();
         return [
             Grid::make([
                 Column::make([
                     ValueMetric::make('Сотрудников на онбординге')
-                        ->value(MoonshineUser::query()
-                            ->where('moonshine_user_role_id', '=', MoonshineUserRole::WORKER_ROLE_ID)
-                            ->count()),
+                        ->value(MoonshineUser::all()->count()),
 
                     ValueMetric::make('Обучающих материалов')
-                        ->value(Material::query()->count()),
+                        ->value(Material::all()->count()),
                 ])->columnSpan(6),
 
                 Column::make([
                     DonutChartMetric::make('Прогресс онбординга')
                         ->columnSpan(6)
-                        ->values(['В процессе' => 100, 'Завершено' => 30]),
+                        ->values(['В процессе' => $countProcess, 'Завершено' => $countFinished]),
                 ])->columnSpan(6),
 
                 Column::make([
                     LineChartMetric::make('Кол-во изученного')
                         ->line([
-                            'Материалы' => [
-                                now()->format('Y-m-d') => 100,
-                                now()->addDay()->format('Y-m-d') => 200
-                            ]
+                            'Изученные материалы' => [
+                                    now()->subDays(20)->format('Y-m-d') => 2,
+                                    now()->subDays(10)->format('Y-m-d') => 4,
+                                ] + $materialStat
                         ])
                         ->line([
-                            'Тесты' => [
-                                now()->format('Y-m-d') => 300,
-                                now()->addDay()->format('Y-m-d') => 400
-                            ]
+                            'Пройденные тесты' => [
+                                    now()->subDays(20)->format('Y-m-d') => 3,
+                                    now()->subDays(10)->format('Y-m-d') => 6,
+                                ] + $testStat
                         ], '#EC4176'),
                 ])->columnSpan(6),
             ])

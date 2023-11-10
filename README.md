@@ -1,10 +1,13 @@
 <p><img alt="laravel" src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
+## HR сервис
 
-## Cервис онбординга и адаптации сотрудников
-> Хакатон 2023-11-04 ЛЦТ2023 https://i.moscow/lct
+> 2023-11-04
+
 - Laravel 10
+- PHP 8.2
 - MySQL 8
+- Vanilla JS
 
 ## How to Install
 

@@ -86,6 +86,8 @@ class MoonShineUserResource extends ModelResource
 
                         Preview::make('Курс пройден?', 'is_course_completed')
                             ->boolean(hideTrue: false, hideFalse: false)
+//                            ->sortable()
+//                            ->showOnExport()
                     ]),
 
                     Tab::make(trans('moonshine::ui.resource.password'), [
