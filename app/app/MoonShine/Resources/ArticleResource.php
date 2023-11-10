@@ -128,7 +128,6 @@ class ArticleResource extends ModelResource
                         Preview::make('No input field', 'no_input', static fn () => fake()->realText())
                             ->hideOnIndex(),
 
-
                         RangeSlider::make('Age')
                             ->min(0)
                             ->max(60)

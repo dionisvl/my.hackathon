@@ -270,7 +270,7 @@ class DatabaseSeeder extends Seeder
                 UserTest::query()->create([
                     'user_id' => $user->id,
                     'test_id' => $test->id,
-                    'result' => random_int(70, 100), // Случайный результат, например, в процентах
+                    'result' => ($user->id === MoonshineUserRole::WORKER_ROLE_ID) ? random_int(1, 50) : random_int(70, 99), // Случайный результат, например, в процентах
                     'completed_at' => Carbon::now()->subDays(random_int(1, 7)),
                 ]);
             }
@@ -282,7 +282,6 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
-        UserTest::Factory(10)->create();
     }
 
     private function courseRoles(): void

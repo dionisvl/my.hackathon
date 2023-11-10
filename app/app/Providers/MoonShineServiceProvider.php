@@ -44,7 +44,9 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             MenuGroup::make('Демо', [
                 MenuItem::make('Статьи', new ArticleResource()),
                 MenuItem::make('Категории', new CategoryResource()),
-            ], 'heroicons.outline.gift'),
+            ], 'heroicons.outline.gift')->canSee(static function () {
+                return isAdmin();
+            }),
             MenuGroup::make('Онбординг и адаптация', [
                 MenuItem::make('Планы онбординга и адаптации', new OnboardingPlanResource(), 'heroicons.map'),
                 MenuItem::make('Учебные материалы', new MaterialResource(), 'heroicons.cursor-arrow-ripple'),

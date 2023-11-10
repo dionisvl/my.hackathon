@@ -750,10 +750,8 @@ select {
   font-weight: 900;
 }
 .prose :where(h2):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
   font-weight: 700;
   font-size: 1.5em;
-  margin-top: 2em;
   margin-bottom: 1em;
   line-height: 1.3333333;
 }
@@ -761,7 +759,6 @@ select {
   font-weight: 800;
 }
 .prose :where(h3):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
   font-weight: 600;
   font-size: 1.25em;
   margin-top: 1.6em;

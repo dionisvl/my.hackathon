@@ -12,12 +12,27 @@ use Illuminate\Notifications\Notifiable;
 use MoonShine\Permissions\Traits\HasMoonShinePermissions;
 use MoonShine\Traits\Models\HasMoonShineSocialite;
 
+/**
+ * @param int $id
+ * @param bool $is_course_completed
+ */
 class MoonshineUser extends \MoonShine\Models\MoonshineUser
 {
     use HasMoonShineSocialite;
     use HasFactory;
     use Notifiable;
     use HasMoonShinePermissions;
+
+    protected $appends = ['is_course_completed'];
+
+    /**
+     * Аксессор к виртуальному полю is_course_completed
+     * @return bool
+     */
+    public function getIsCourseCompletedAttribute(): bool
+    {
+        return $this->isCourseCompleted();
+    }
 
     protected $fillable = [
         'email',
@@ -70,5 +85,24 @@ class MoonshineUser extends \MoonShine\Models\MoonshineUser
             'moonshine_user_role_id', // Локальный ключ в таблице moonshine_users
             'course_id' // Локальный ключ в таблице course_roles
         );
+    }
+
+    /** Возвращает ответ: прошел ли сотрудник курс онбординга? */
+    public function isCourseCompleted(): bool
+    {
+        $course = $this->courses()->first();
+        $user = $this;
+        if ($course === null || $course->materials === null) {
+            return false;
+        }
+        $allMaterialsViewed = $course->materials->every(function ($material) use ($user) {
+            return $user->materials->where('material_id', $material->id)->whereNotNull('viewed_at');
+        });
+        $allTestsPassed = $course->tests->every(function ($test) use ($user) {
+            $userTest = $user->tests->where('test_id', $test->id)->first();
+            return $userTest && $userTest->result >= UserTest::PASS_THRESHOLD;
+        });
+
+        return $allMaterialsViewed && $allTestsPassed;
     }
 }

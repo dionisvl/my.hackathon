@@ -12,20 +12,11 @@
                 <div class="card">
 
                     <div class="card-header">
-                        Прогресс онбординга пользователя: <br>{{ $user->id }}. {{ $user->name }}
+                        Курс: {{ $course->id }}. {{ $course->title }}<br>
+                        Сотрудник: {{ $user->id }}. {{ $user->name }}
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Курс: {{ $course->title }}</h5>
-                        @php
-                            $allMaterialsViewed = $course->materials->every(function ($material) use ($user) {
-                                return $user->materials->where('material_id', $material->id)->whereNotNull('viewed_at');
-                            });
-                            $allTestsPassed = $course->tests->every(function ($test) use ($user) {
-                                $userTest = $user->tests->where('test_id', $test->id)->first();
-                                return $userTest && $userTest->result >= \App\Models\UserTest::PASS_THRESHOLD;
-                            });
-                            $courseCompleted = $allMaterialsViewed && $allTestsPassed;
-                        @endphp
+                        <h2 class="card-title">Прогресс онбординга пользователя</h2>
                         <p class="card-text badge badge-primary">Дата начала курса: {{ $course->start_at }}</p>
 
                         <ul class="list-group list-group-flush">
@@ -44,7 +35,7 @@
                                         @if($userMaterial && $userMaterial->viewed_at)
                                             <small>({{ $userMaterial->viewed_at }})</small>
                                         @endif
-            </span>
+                                    </span>
                                 </li>
                             @endforeach
                         </ul>
@@ -75,7 +66,7 @@
                         </ul>
                         <p class="card-text mt-3 card-text badge badge-primary">Окончание
                             курса: {{ $course->end_at }}</p>
-                        @if ($courseCompleted)
+                        @if ($user->isCourseCompleted())
                             <div class="alert alert-success" role="alert">
                                 Курс успешно пройден!
                             </div>
