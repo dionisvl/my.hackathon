@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\DictionaryController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTestController;
 use Illuminate\Support\Facades\Route;
 use MoonShine\Http\Controllers\AsyncController;
@@ -48,6 +49,12 @@ Route::prefix(config('moonshine.route.prefix', 'admin'))
                 ->group(function () {
                     Route::get('/', 'index')->name('index');
                     Route::get('/{material:id}', 'show')->name('show');
+                });
+
+            Route::prefix('user')->controller(UserController::class)
+                ->name('user.')
+                ->group(function () {
+                    Route::get('/{userId:id}/progress', 'progress')->name('progress');
                 });
 
             Route::prefix('tests')->controller(UserTestController::class)

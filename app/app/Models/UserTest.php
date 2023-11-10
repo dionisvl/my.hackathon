@@ -15,6 +15,9 @@ class UserTest extends Model
 
     protected $fillable = ['user_id', 'test_id', 'result', 'completed_at'];
 
+    // порог процента правильных ответов для прохождения теста
+    public const PASS_THRESHOLD = 65;
+
     public function test(): BelongsTo
     {
         return $this->belongsTo(Test::class);

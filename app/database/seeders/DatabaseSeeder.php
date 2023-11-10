@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseMaterials;
 use App\Models\CourseRole;
+use App\Models\CourseTests;
 use App\Models\Material;
 use App\Models\MoonshineUserRole;
 use App\Models\OnboardingPlan;
@@ -13,6 +15,7 @@ use App\Models\Test;
 use App\Models\TestQuestionAnswers;
 use App\Models\TestQuestions;
 use App\Models\User;
+use App\Models\UserMaterial;
 use App\Models\UserTest;
 use Carbon\Carbon;
 use Exception;
@@ -89,9 +92,9 @@ class DatabaseSeeder extends Seeder
         $this->materials();
         $this->courses();
         $this->tests();
-        $this->testUser();
         $this->courseRoles();
-
+        $this->userMaterialsAndTests();
+        $this->courseTestsAndMaterials();
     }
 
     private function onboardingPlans(): void
@@ -252,21 +255,32 @@ class DatabaseSeeder extends Seeder
     }
 
     /**
+     * Сидируем результаты изучения тестов и материалов у пользователей
+     * @return void
      * @throws Exception
      */
-    private function testUser(): void
+    private function userMaterialsAndTests(): void
     {
-        // Получаем случайные тесты
+        // Получаем случайные материалы и тесты
+        $materials = Test::inRandomOrder()->take(2)->get();
         $tests = Test::inRandomOrder()->take(2)->get();
-        foreach ($tests as $test) {
-            DB::table('user_tests')->insert([
-                'user_id' => 1,
-                'test_id' => $test->id,
-                'result' => random_int(0, 100), // Случайный результат, например, в процентах
-                'completed_at' => Carbon::now(),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
+        $users = MoonshineUser::Query()->take(4)->get();
+        foreach ($users as $user) {
+            foreach ($tests as $test) {
+                UserTest::query()->create([
+                    'user_id' => $user->id,
+                    'test_id' => $test->id,
+                    'result' => random_int(70, 100), // Случайный результат, например, в процентах
+                    'completed_at' => Carbon::now()->subDays(random_int(1, 7)),
+                ]);
+            }
+            foreach ($materials as $material) {
+                UserMaterial::query()->create([
+                    'user_id' => $user->id,
+                    'material_id' => $material->id,
+                    'viewed_at' => Carbon::now()->subDays(random_int(1, 7)),
+                ]);
+            }
         }
         UserTest::Factory(10)->create();
     }
@@ -289,5 +303,29 @@ class DatabaseSeeder extends Seeder
             'course_id' => 2,
             'role_id' => MoonshineUserRole::HR_ROLE_ID,
         ]);
+    }
+
+    /**
+     * Сидируем привязку ко всем курсам всех материалов и всех тестов
+     */
+    private function courseTestsAndMaterials(): void
+    {
+        $courses = Course::all();
+        $materials = Test::Query()->take(2)->get();
+        $tests = Test::Query()->take(2)->get();
+        foreach ($courses as $course) {
+            foreach ($tests as $test) {
+                CourseTests::query()->create([
+                    'course_id' => $course->id,
+                    'test_id' => $test->id,
+                ]);
+            }
+            foreach ($materials as $material) {
+                CourseMaterials::query()->create([
+                    'course_id' => $course->id,
+                    'material_id' => $material->id,
+                ]);
+            }
+        }
     }
 }

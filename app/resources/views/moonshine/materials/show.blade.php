@@ -9,6 +9,7 @@
             prose-img:rounded-xl
             prose-invert"
         >
+            <h5>Изучите материал: </h5>
             <x-title>{{ $material->title }}</x-title>
 
             <div class="mt-4">
@@ -48,6 +49,8 @@
                 @endif
 
             </div>
+
+            <blockquote>После прочтения данного материала можете нажать кнопку "назад" и выбрать следующий.</blockquote>
         </div>
     </div>
 @endsection

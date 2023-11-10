@@ -41,9 +41,10 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('test_id');
-            $table->decimal('result')->nullable();
+            $table->decimal('result')->nullable();# UserTest::PASS_THRESHOLD = 65
             $table->timestamp('completed_at')->nullable()->default(null);
             $table->timestamps();
+            $table->comment('Результаты пользователей по прохождению тестов');
         });
 
         Schema::create('user_materials', static function (Blueprint $table) {
@@ -52,8 +53,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('material_id');
             $table->timestamp('viewed_at')->nullable();
             $table->timestamps();
+            $table->comment('Результаты пользователей по изучению материалов');
         });
-
 
         // @see: https://laravel.com/docs/10.x/notifications
         Schema::create('notifications', static function (Blueprint $table) {
@@ -168,7 +169,6 @@ return new class extends Migration {
         Schema::dropIfExists('course_materials');
         Schema::dropIfExists('course_tests');
         Schema::dropIfExists('course_users');
-
 
         Schema::dropIfExists('materials');
         Schema::dropIfExists('user_materials');

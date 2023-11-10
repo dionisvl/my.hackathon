@@ -92,7 +92,8 @@ class MaterialResource extends ModelResource
                                 ->disk('public')
                                 ->multiple()
                                 ->removable()
-                                ->dir('materials'),
+                                ->dir('materials')
+                                ->keepOriginalFileName(),
                         ]),
                     ]),
 
@@ -167,7 +168,7 @@ class MaterialResource extends ModelResource
     {
         return [
             ActionButton::make(
-                'Go to',
+                'Просмотр материала',
                 static fn(Material $model) => route('moonshine.materials.show', $model)
             )->icon('heroicons.outline.document-arrow-down'),
         ];

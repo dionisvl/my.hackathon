@@ -6,6 +6,7 @@ namespace App\MoonShine\Resources;
 
 use App\Models\MoonshineUser;
 use Illuminate\Validation\Rule;
+use MoonShine\ActionButtons\ActionButton;
 use MoonShine\Attributes\Icon;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Heading;
@@ -18,6 +19,7 @@ use MoonShine\Fields\Image;
 use MoonShine\Fields\Password;
 use MoonShine\Fields\PasswordRepeat;
 use MoonShine\Fields\Relationships\BelongsTo;
+use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Text;
 use MoonShine\Models\MoonshineUserRole;
 use MoonShine\Permissions\Traits\WithPermissions;
@@ -31,12 +33,9 @@ class MoonShineUserResource extends ModelResource
 
     public string $model = MoonshineUser::class;
 
-    public string $column = 'name';
+    protected string $title = 'Сотрудники онбординга';
 
-    public function title(): string
-    {
-        return __('moonshine::ui.resource.admins_title');
-    }
+    public string $column = 'name';
 
     public function fields(): array
     {
@@ -76,6 +75,13 @@ class MoonShineUserResource extends ModelResource
                             ->sortable()
                             ->showOnExport()
                             ->required(),
+
+                        Email::make('Курс пользователя', 'email')
+                            ->sortable()
+                            ->showOnExport()
+                            ->required(),
+
+                        BelongsToMany::make('Курс пользователя', 'courses', static fn($item) => "$item->id. $item->title", resource: new CourseResource()),
                     ]),
 
                     Tab::make(trans('moonshine::ui.resource.password'), [
@@ -120,5 +126,15 @@ class MoonShineUserResource extends ModelResource
     public function search(): array
     {
         return ['id', 'name'];
+    }
+
+    public function buttons(): array
+    {
+        return [
+            ActionButton::make(
+                'Просмотр прогресса онбординга',
+                static fn(MoonshineUser $model) => route('moonshine.user.progress', $model)
+            )->icon('heroicons.outline.document-arrow-down'),
+        ];
     }
 }

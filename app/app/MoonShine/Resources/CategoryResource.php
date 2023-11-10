@@ -5,17 +5,14 @@ namespace App\MoonShine\Resources;
 use App\Models\Category;
 use App\MoonShine\Category\CategoryIndexPage;
 use Illuminate\Database\Eloquent\Model;
-
 use Leeto\MoonShineTree\Resources\TreeResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Enums\PageType;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\DetailPage;
 use MoonShine\Pages\Crud\FormPage;
-use MoonShine\Pages\Crud\IndexPage;
-use MoonShine\Resources\ModelResource;
-use MoonShine\Fields\ID;
 
 class CategoryResource extends TreeResource
 {
