@@ -23,6 +23,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use MoonShine\Models\MoonshineUser;
 
+/**
+ * Сидирование базы данных
+ */
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -99,24 +102,22 @@ class DatabaseSeeder extends Seeder
 
     private function onboardingPlans(): void
     {
-        OnboardingPlan::query()->create([
-            'title' => 'План адаптации проектного менеджера',
-            'content' => '
-            - Welcome to the Proscom
-            - Деловой этикет онлайн и офлайн-встреч
-            - Познакомиться с нашим Boris Daily в Google Chat
+        $roles = MoonshineUserRole::all();
+        foreach ($roles as $role) {
+            OnboardingPlan::query()->create([
+                'title' => 'План адаптации для ' . $role->name,
+                'content' => '
+<ul>
+    <li>1 Welcome to the Proscom. Ваша задача: изучить все материалы и сдать все тесты из вашего курса.</li>
+    <li>2 Деловой этикет</li>
+    <li>3 Познакомиться с нашим Boris Daily</li>
+    <li>4 Выпить кофейку</li>
+    <li>5 PROFIT!</li>
+</ul>
             ',
-            'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
-        ]);
-        OnboardingPlan::query()->create([
-            'title' => 'Онбординг QA специалиста',
-            'content' => '
-            - Welcome to the Proscom
-            - Деловой этикет QA и QA-auto
-            - Познакомиться с нашим QA Daily
-            ',
-            'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
-        ]);
+                'role_id' => $role->id,
+            ]);
+        }
     }
 
     private function materials(): void
@@ -287,20 +288,20 @@ class DatabaseSeeder extends Seeder
     private function courseRoles(): void
     {
         CourseRole::query()->create([
-            'course_id' => 1,
-            'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
+            'course_id' => 2,
+            'role_id' => MoonshineUserRole::ADMIN_ROLE_ID,
         ]);
         CourseRole::query()->create([
             'course_id' => 2,
+            'role_id' => MoonshineUserRole::HR_ROLE_ID,
+        ]);
+        CourseRole::query()->create([
+            'course_id' => 1,
             'role_id' => MoonshineUserRole::MANAGER_ROLE_ID,
         ]);
         CourseRole::query()->create([
             'course_id' => 1,
-            'role_id' => MoonshineUserRole::HR_ROLE_ID,
-        ]);
-        CourseRole::query()->create([
-            'course_id' => 2,
-            'role_id' => MoonshineUserRole::HR_ROLE_ID,
+            'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
         ]);
     }
 

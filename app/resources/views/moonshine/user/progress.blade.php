@@ -20,12 +20,14 @@
                         <p class="card-text badge badge-primary">Дата начала курса: {{ $course->start_at }}</p>
 
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center  btn-outline-success">
                                 Материалы:
                             </li>
                             @foreach ($course->materials as $material)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $material->title }}
+                                    <a href="{{ route('moonshine.materials.show', ['material' => $material->id]) }}">
+                                        {{ $material->title }}
+                                    </a>
                                     @php
                                         $userMaterial = $user->materials->where('material_id', $material->id)->first();
                                     @endphp
@@ -40,12 +42,15 @@
                             @endforeach
                         </ul>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center btn-outline-info">
                                 Тесты:
                             </li>
                             @foreach ($course->tests as $test)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>Тест: {{ $test->title }}</span>
+                                    <span>Тест: <a href="{{ route('moonshine.tests.start', ['test' => $test->id]) }}">
+                                        {{ $test->title }}
+                                    </a>
+                                    </span>
                                     @php
                                         $userTest = $user->tests->where('test_id', $test->id)->first();
                                         $isPassed = $userTest && $userTest->result >= \App\Models\UserTest::PASS_THRESHOLD;

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Notifications\Notifiable;
 use MoonShine\Permissions\Traits\HasMoonShinePermissions;
 use MoonShine\Traits\Models\HasMoonShineSocialite;
@@ -84,6 +85,19 @@ class MoonshineUser extends \MoonShine\Models\MoonshineUser
             'id', // Внешний ключ в таблице courses
             'moonshine_user_role_id', // Локальный ключ в таблице moonshine_users
             'course_id' // Локальный ключ в таблице course_roles
+        );
+    }
+
+    // Онбординг план именно для этого пользователя вычисляемый через его должность
+    public function plan(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            OnboardingPlan::class,
+            MoonshineUserRole::class,
+            'id',// Внешний ключ MoonshineUserRole на MoonshineUser
+            'role_id', // Внешний ключ OnboardingPlan на MoonshineUserRole
+            'moonshine_user_role_id', // Локальный ключ на MoonshineUser
+            'id' // Локальный ключ на MoonshineUserRole
         );
     }
 
