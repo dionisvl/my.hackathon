@@ -42,13 +42,17 @@ SHELL ["/bin/bash", "-c"]
 
 ## CRON start
 # Add crontab file in the cron directory
+RUN rm /bin/sh
+RUN ln -s /bin/bash /bin/sh
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+RUN chmod 0777 /var/log/cron.log
 ADD .docker/php-fpm/crontab /etc/cron.d/schedule-cron
 # Give execution rights on the cron job
 RUN chmod 0644 /etc/cron.d/schedule-cron
 # Apply cron job
 RUN crontab /etc/cron.d/schedule-cron
-# Create the log file to be able to run tail
-RUN touch /var/log/cron.log
+
 ## CRON end
 
 # Clean up apt cache to reduce image size
