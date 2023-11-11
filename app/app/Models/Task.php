@@ -53,6 +53,11 @@ class Task extends Model
      */
     protected static function booted(): void
     {
+        // мы не должны слушать все эти события когда приложение запущено из консоли
+        if (app()->runningInConsole()) {
+            return;
+        }
+
         static::created(static function ($task) {
             if ($task->assignee_id && $assignee = $task->assignee) {
                 Mail::to($assignee->email)->send(new TaskAssignedEmail($task));

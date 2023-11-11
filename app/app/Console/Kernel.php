@@ -9,10 +9,23 @@ class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
+     * @example php artisan send:deadline-task-notifications
+     * @example php artisan send:deadline-course-notifications
+     * @example php artisan schedule:run
      */
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+
+        // Уведомления по дедлайнам тасок:
+        $schedule->command('send:deadline-task-notifications')
+            ->hourly()
+            ->appendOutputTo('/app/storage/logs/laravel-scheduler.log');
+
+        // Уведомления по дедлайнам курсов:
+        $schedule->command('send:deadline-course-notifications')
+            ->everyFiveMinutes()
+            ->appendOutputTo('/app/storage/logs/laravel-scheduler.log');
     }
 
     /**

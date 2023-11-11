@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libgd-dev \
+        cron \
     && docker-php-ext-install \
         gd \
         mysqli \
@@ -39,6 +40,17 @@ RUN apt-get install -y nano bash-completion && rm -rf /var/lib/apt/lists/*
 # bash как оболочка по умолчанию
 SHELL ["/bin/bash", "-c"]
 
+## CRON start
+# Add crontab file in the cron directory
+ADD .docker/php-fpm/crontab /etc/cron.d/schedule-cron
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/schedule-cron
+# Apply cron job
+RUN crontab /etc/cron.d/schedule-cron
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+## CRON end
+
 # Clean up apt cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -49,4 +61,4 @@ WORKDIR /app
 EXPOSE 9000
 
 # Run PHP-FPM on container start
-CMD ["php-fpm"]
+CMD cron && docker-php-entrypoint php-fpm

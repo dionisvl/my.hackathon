@@ -2,7 +2,8 @@ include .env
 
 up: docker-up
 down: docker-down
-
+build:
+	docker compose up --build -d
 docker-up:
 	docker compose up -d
 
@@ -11,6 +12,8 @@ docker-down:
 
 composer-install:
 	docker compose exec php-fpm composer install
+composer-update:
+	docker compose exec php-fpm composer update
 
 migrate:
 	docker compose exec php-fpm php artisan migrate

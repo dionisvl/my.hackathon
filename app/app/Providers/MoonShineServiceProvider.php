@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use App\MoonShine\Pages\Monitoring\Monitoring;
-use App\MoonShine\Resources\ArticleResource;
-use App\MoonShine\Resources\CategoryResource;
 use App\MoonShine\Resources\CourseMaterialsResource;
 use App\MoonShine\Resources\CourseResource;
 use App\MoonShine\Resources\CourseTestsResource;
@@ -42,12 +40,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             ], 'heroicons.outline.user-group')->canSee(static function () {
                 return isAdmin();
             }),
-            MenuGroup::make('Демо', [
-                MenuItem::make('Статьи', new ArticleResource()),
-                MenuItem::make('Категории', new CategoryResource()),
-            ], 'heroicons.outline.gift')->canSee(static function () {
-                return isAdmin();
-            }),
+
             MenuGroup::make('Онбординг и адаптация', [
                 MenuItem::make('Планы онбординга и адаптации', new OnboardingPlanResource(), 'heroicons.map'),
                 MenuItem::make('Учебные материалы', new MaterialResource(), 'heroicons.cursor-arrow-ripple'),

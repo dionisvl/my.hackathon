@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseMaterials;
 use App\Models\CourseRole;
 use App\Models\CourseTests;
+use App\Models\CourseUsers;
 use App\Models\Material;
 use App\Models\MoonshineUser;
 use App\Models\MoonshineUserRole;
@@ -304,6 +305,12 @@ class DatabaseSeeder extends Seeder
         CourseRole::query()->create([
             'course_id' => 1,
             'role_id' => MoonshineUserRole::WORKER_ROLE_ID,
+        ]);
+
+        // course_users:
+        CourseUsers::query()->create([
+            'course_id' => 2,
+            'user_id' => MoonshineUserRole::ADMIN_ROLE_ID,
         ]);
     }
 

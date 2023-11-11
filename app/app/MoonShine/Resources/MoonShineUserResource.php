@@ -20,7 +20,6 @@ use MoonShine\Fields\Password;
 use MoonShine\Fields\PasswordRepeat;
 use MoonShine\Fields\Preview;
 use MoonShine\Fields\Relationships\BelongsTo;
-use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Text;
 use MoonShine\Models\MoonshineUserRole;
 use MoonShine\Permissions\Traits\WithPermissions;
@@ -77,12 +76,9 @@ class MoonShineUserResource extends ModelResource
                             ->showOnExport()
                             ->required(),
 
-                        Email::make('Курс пользователя', 'email')
-                            ->sortable()
-                            ->showOnExport()
-                            ->required(),
-
-                        BelongsToMany::make('Курс пользователя', 'courses', static fn($item) => "$item->id. $item->title", resource: new CourseResource()),
+//                        BelongsToMany::make('Курс пользователя', 'courses', static fn($item) => "$item->id. $item->title", resource: new CourseResource())
+//                            ->readonly()
+//                            ->disabled(),
 
                         Preview::make('Курс пройден?', 'is_course_completed')
                             ->boolean(hideTrue: false, hideFalse: false)

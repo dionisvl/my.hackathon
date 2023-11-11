@@ -192,6 +192,10 @@ class TaskResource extends ModelResource
     {
         return [
             QueryTag::make(
+                'Мои задачи',
+                static fn(Builder $q) => $q->where('assignee_id', auth()->id())
+            ),
+            QueryTag::make(
                 'Созданные не взятые в работу задачи',
                 static fn(Builder $q) => $q->where('status', Task::STATUS_NOT_STARTED)
             ),
