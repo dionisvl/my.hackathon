@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
+use App\MoonShine\Pages\Dashboard;
+use App\MoonShine\Pages\Help\Help;
 use App\MoonShine\Pages\Monitoring\Monitoring;
 use App\MoonShine\Resources\CourseMaterialsResource;
 use App\MoonShine\Resources\CourseResource;
 use App\MoonShine\Resources\CourseTestsResource;
 use App\MoonShine\Resources\CourseUsersResource;
-use App\MoonShine\Resources\DictionaryResource;
 use App\MoonShine\Resources\MaterialResource;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\OnboardingPlanResource;
@@ -27,6 +28,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     protected function menu(): array
     {
         return [
+            MenuItem::make('Главная', Dashboard::make('Главная', 'dashboard')),
             MenuGroup::make('Администрирование', [
 
                 MenuItem::make('Пользователи и Сотрудники', new MoonShineUserResource(), 'heroicons.outline.users'),
@@ -45,22 +47,26 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Планы онбординга и адаптации', new OnboardingPlanResource(), 'heroicons.map'),
                 MenuItem::make('Учебные материалы', new MaterialResource(), 'heroicons.cursor-arrow-ripple'),
                 MenuItem::make('Учебные курсы', new CourseResource(), 'heroicons.academic-cap'),
-            ], 'heroicons.outline.newspaper'),
+            ], 'heroicons.outline.newspaper')->canSee(static function () {
+                return isAdmin();
+            }),
 
             MenuGroup::make('Тесты', [
-                MenuItem::make('Тесты', new TestResource()),
+                MenuItem::make('Тесты', new TestResource())->badge(static fn() => 'AI'),
                 MenuItem::make('Вопросы к тестам', new TestQuestionsResource()),
                 MenuItem::make('Ответы к вопросам', new TestQuestionAnswersResource()),
                 MenuItem::make('Результаты тестов', new UserTestResource()),
-            ], 'heroicons.language'),
+            ], 'heroicons.language')->canSee(static function () {
+                return isAdmin();
+            }),
 
-            MenuItem::make('Задачи', new TaskResource()),
+            MenuItem::make('Задачи', new TaskResource())->badge(static fn() => 'AI'),
+            MenuItem::make('Помощь', Help::make('Помощь', 'help')),
 
-            MenuItem::make('Уведомления', new DictionaryResource()),
-            MenuItem::make('Поддержка', new DictionaryResource())->badge(static fn() => $countMessages = '3'),
-            MenuItem::make('Отчетность', new DictionaryResource()),
             // Кастомная страница
-            MenuItem::make('Мониторинг обучения', Monitoring::make('Мониторинг обучения', 'monitoring'))
+            MenuItem::make('Мониторинг обучения', Monitoring::make('Мониторинг обучения', 'monitoring'))->canSee(static function () {
+                return isAdmin();
+            })
         ];
     }
 

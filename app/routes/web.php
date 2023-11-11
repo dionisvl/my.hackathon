@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\AiController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\DictionaryController;
-use App\Http\Controllers\EmailController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTestController;
@@ -66,12 +66,12 @@ Route::prefix(config('moonshine.route.prefix', 'admin'))
                     Route::get('/result/{userTest:id}', 'result')->name('result');
                 });
 
-            Route::prefix('emails')->controller(EmailController::class)
-                ->name('emails.')
+            Route::prefix('ai')->controller(AiController::class)
+                ->name('ai.')
                 ->group(static function (): void {
-                    Route::get('/newTask/', [EmailController::class, 'sendEmail'])->name('newTask');
+                    Route::get('/getReport', 'getReport')->name('getReport');
+                    Route::post('/generateTest', 'generateTest')->name('generateTest');
                 });
-
 
             Route::prefix('resource/{resourceUri}')->group(function (): void {
                 Route::delete('crud', [CrudController::class, 'massDelete'])->name('crud.massDelete');

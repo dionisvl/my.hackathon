@@ -59,11 +59,75 @@ class TestResource extends ModelResource
 
     public function buttons(): array
     {
+        $html = <<<HTML
+<div>Вставьте сюда ваш текст для теста: </div>
+<textarea id="aiTextarea" style="min-width: 600px;"></textarea>
+<span id="loadMessage" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200 ease-in-out cursor-pointer">
+  Сгенерировать тест на основе сырого текста с помощью нейросети
+</span>
+<div id="responseArea"></div>
+<div id="spinner" style="display: none; animation: blink 1s linear infinite;">Loading...</div>
+<script>
+document.getElementById('loadMessage').addEventListener('click', function() {
+    const inputText = document.getElementById('aiTextarea').value;
+    const url = '/admin/ai/generateTest';
+
+    document.getElementById('spinner').style.display = 'block';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ text: inputText })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сервера');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('spinner').style.display = 'none';
+        if (data.status === 'success') {
+            document.getElementById('responseArea').innerText = data.message;
+        }else if(data.message) {
+            document.getElementById('responseArea').innerText = data.message;
+        }else {
+            document.getElementById('responseArea').innerText = 'Произошла ошибка сервера';
+        }
+    })
+    .catch(error => {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('responseArea').innerText = error.message;
+    });
+});
+</script>
+<style>
+@keyframes blink {
+  0% {opacity: 1;}
+  50% {opacity: 0.5;}
+  100% {opacity: 1;}
+}
+</style>
+HTML;
+
         return [
             ActionButton::make(
                 'Пройти этот тест',
                 static fn(Test $model) => route('moonshine.tests.start', $model)
             )->icon('heroicons.outline.paper-clip'),
+
+            ActionButton::make(
+                label: 'Генерация теста AI',
+            //url: '/admin/ai/getModal',
+            )->inModal(
+                title: fn() => 'Генерация теста AI',
+                content: fn() => $html,
+                async: false
+            ),
         ];
     }
 }

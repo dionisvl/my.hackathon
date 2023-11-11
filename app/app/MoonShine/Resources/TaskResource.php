@@ -14,6 +14,7 @@ use MoonShine\Decorations\Grid;
 use MoonShine\Enums\PageType;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
+use MoonShine\Fields\Preview;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Select;
 use MoonShine\Fields\Text;
@@ -28,10 +29,48 @@ class TaskResource extends ModelResource
     protected string $model = Task::class;
     protected string $title = 'Задачи для прохождения онбординга';
     protected ?PageType $redirectAfterSave = PageType::INDEX;
-    protected bool $editInModal = true;
+    protected bool $editInModal = false;
 
     public function fields(): array
     {
+        $html = <<<HTML
+<span id="loadMessage" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200 ease-in-out cursor-pointer">
+  Сгенерировать отчет о работе с помощью нейросети
+</span>
+<div id="spinner" style="display: none; animation: blink 1s linear infinite;">Loading...</div>
+<script>
+document.getElementById('loadMessage').addEventListener('click', function() {
+    const inputText = encodeURIComponent(tinymce.get('tiny-mce-1').getContent()); // Получение текста из TinyMCE редактора
+    const url = '/admin/ai/getReport?inputString=' + inputText; // Построение URL с параметрами запроса
+
+    document.getElementById('spinner').style.display = 'block';
+
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сервера');
+        }
+        return response.text();
+    })
+    .then(message => {
+        document.getElementById('spinner').style.display = 'none';
+        tinymce.get('tiny-mce-2').setContent(message);
+    })
+    .catch(error => {
+        document.getElementById('spinner').style.display = 'none';
+        tinymce.get('tiny-mce-2').setContent(error.message);
+    });
+});
+</script>
+<style>
+@keyframes blink {
+  0% {opacity: 1;}
+  50% {opacity: 0.5;}
+  100% {opacity: 1;}
+}
+</style>
+HTML;
+
         $task = new Task();
 
         if (isAdmin()) {
@@ -86,6 +125,12 @@ class TaskResource extends ModelResource
                         ->showOnExport()
                         ->sortable()
                         ->disabled(),
+
+                    Preview::make('Preview', 'updated_at', static fn() => $html)
+                        ->hideOnIndex()
+                        ->hideOnExport()
+                        ->hideOnDetail()
+
                 ]),
             ];
         } else {
@@ -156,7 +201,10 @@ class TaskResource extends ModelResource
             Grid::make([
                 Column::make(
 
-                    [] + $ui,
+                    [] + $ui
+                    + [
+                        Preview::make('Preview', 'status', static fn() => 'some tessx<b> df </b>')
+                    ],
 
                 )->columnSpan(6),
             ]),
