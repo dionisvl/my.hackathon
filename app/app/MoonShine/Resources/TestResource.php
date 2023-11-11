@@ -62,7 +62,7 @@ class TestResource extends ModelResource
         $html = <<<HTML
 <div>Вставьте сюда ваш текст для теста: </div>
 <textarea id="aiTextarea" style="min-width: 600px;"></textarea>
-<span id="loadMessage" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200 ease-in-out cursor-pointer">
+<span id="loadMessage" class="inline-block bg-blue-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200 ease-in-out cursor-pointer" style="color: black !important;">
   Сгенерировать тест на основе сырого текста с помощью нейросети
 </span>
 <div id="responseArea"></div>
