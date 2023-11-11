@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\DictionaryController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTestController;
@@ -64,6 +65,13 @@ Route::prefix(config('moonshine.route.prefix', 'admin'))
                     Route::post('/answer/{testId:id}', 'answer')->name('answer');
                     Route::get('/result/{userTest:id}', 'result')->name('result');
                 });
+
+            Route::prefix('emails')->controller(EmailController::class)
+                ->name('emails.')
+                ->group(static function (): void {
+                    Route::get('/newTask/', [EmailController::class, 'sendEmail'])->name('newTask');
+                });
+
 
             Route::prefix('resource/{resourceUri}')->group(function (): void {
                 Route::delete('crud', [CrudController::class, 'massDelete'])->name('crud.massDelete');

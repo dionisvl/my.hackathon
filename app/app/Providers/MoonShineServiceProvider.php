@@ -14,6 +14,7 @@ use App\MoonShine\Resources\MaterialResource;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\OnboardingPlanResource;
 use App\MoonShine\Resources\SettingResource;
+use App\MoonShine\Resources\TaskResource;
 use App\MoonShine\Resources\TestQuestionAnswersResource;
 use App\MoonShine\Resources\TestQuestionsResource;
 use App\MoonShine\Resources\TestResource;
@@ -59,6 +60,8 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Ответы к вопросам', new TestQuestionAnswersResource()),
                 MenuItem::make('Результаты тестов', new UserTestResource()),
             ], 'heroicons.language'),
+
+            MenuItem::make('Задачи', new TaskResource()),
 
             MenuItem::make('Уведомления', new DictionaryResource()),
             MenuItem::make('Поддержка', new DictionaryResource())->badge(static fn() => $countMessages = '3'),

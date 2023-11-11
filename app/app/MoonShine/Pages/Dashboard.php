@@ -62,12 +62,13 @@ class Dashboard extends Page
                 Column::make([
                     ValueMetric::make('Ваша должность')
                         ->value($thisUser->role->name),
+
                     TextBlock::make($planTitle, $planContent,),
 
-                    ValueMetric::make('Автоматически назначенный вам курс обучения')
+                    ValueMetric::make('Автоматически назначенный вам курс онбординга')
                         ->value($courseString),
 
-                    Preview::make('Ознакомьтесь с вашим личным прогрессом онбординга по этой ссылке')
+                    Preview::make('Перейти к онбордингу по ссылке:')
                         ->link($url, blank: false),
 
                 ])->columnSpan(6),

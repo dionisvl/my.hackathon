@@ -17,6 +17,7 @@
         "moonshine/changelog": "^1.0",
         "moonshine/moonshine": "2.0.0-rc.2",
         "moonshine/permissions": "^1.0",
+        "openai-php/laravel": "^0.7.8",
         "socialiteproviders/vkontakte": "^5.0",
         "symfony/filesystem": "^6.3",
         "unisharp/laravel-filemanager": "^2.6"
@@ -68,7 +69,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true

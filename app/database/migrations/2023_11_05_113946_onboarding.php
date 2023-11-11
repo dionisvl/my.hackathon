@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Task;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -150,6 +151,18 @@ return new class extends Migration {
             $table->unsignedBigInteger('test_id');
             $table->timestamps();
         });
+
+        Schema::create('tasks', static function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('creator_id')->index();
+            $table->unsignedBigInteger('assignee_id')->nullable()->index();
+            $table->string('status')->default(Task::STATUS_NOT_STARTED)->index();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->text('result')->nullable();
+            $table->timestamp('deadline')->nullable()->index();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -181,5 +194,7 @@ return new class extends Migration {
         Schema::dropIfExists('onboarding_plans');
         Schema::dropIfExists('plan_materials');
         Schema::dropIfExists('plan_tests');
+
+        Schema::dropIfExists('tasks');
     }
 };

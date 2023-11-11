@@ -14,8 +14,10 @@ use MoonShine\Permissions\Traits\HasMoonShinePermissions;
 use MoonShine\Traits\Models\HasMoonShineSocialite;
 
 /**
- * @param int $id
- * @param bool $is_course_completed
+ * @property int $id
+ * @property string $email
+ * @property string $name
+ * @property bool $is_course_completed
  */
 class MoonshineUser extends \MoonShine\Models\MoonshineUser
 {

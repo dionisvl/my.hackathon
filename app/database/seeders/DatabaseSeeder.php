@@ -9,8 +9,10 @@ use App\Models\CourseMaterials;
 use App\Models\CourseRole;
 use App\Models\CourseTests;
 use App\Models\Material;
+use App\Models\MoonshineUser;
 use App\Models\MoonshineUserRole;
 use App\Models\OnboardingPlan;
+use App\Models\Task;
 use App\Models\Test;
 use App\Models\TestQuestionAnswers;
 use App\Models\TestQuestions;
@@ -21,7 +23,6 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use MoonShine\Models\MoonshineUser;
 
 /**
  * Сидирование базы данных
@@ -98,6 +99,7 @@ class DatabaseSeeder extends Seeder
         $this->courseRoles();
         $this->userMaterialsAndTests();
         $this->courseTestsAndMaterials();
+        $this->tasks();
     }
 
     private function onboardingPlans(): void
@@ -107,12 +109,12 @@ class DatabaseSeeder extends Seeder
             OnboardingPlan::query()->create([
                 'title' => 'План адаптации для ' . $role->name,
                 'content' => '
-<ul>
-    <li>1 Welcome to the Proscom. Ваша задача: изучить все материалы и сдать все тесты из вашего курса.</li>
-    <li>2 Деловой этикет</li>
-    <li>3 Познакомиться с нашим Boris Daily</li>
-    <li>4 Выпить кофейку</li>
-    <li>5 PROFIT!</li>
+<ul style="list-style-type: decimal;">
+    <li> - Welcome to the Proscom. Ваша задача: изучить все материалы и сдать все тесты из вашего курса.</li>
+    <li> - Изучить наш корпоративный деловой этикет</li>
+    <li> - Познакомиться с нашим Boris Daily</li>
+    <li> - Выпить кофейку</li>
+    <li> - PROFIT!</li>
 </ul>
             ',
                 'role_id' => $role->id,
@@ -327,5 +329,36 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+    }
+
+    /**
+     * На каждого юзера заведём минимум по 2 задачки
+     * @throws Exception
+     */
+    private function tasks(): void
+    {
+        $count = 0;
+        $statuses = [Task::STATUS_NOT_STARTED, Task::STATUS_IN_PROGRESS, Task::STATUS_COMPLETED];
+        $descriptions = ['Выпить кофейку', 'Познакомиться с нашим Boris Daily', 'Изучить наш корпоративный деловой этикет'];
+        $userIds = MoonshineUser::pluck('id')->toArray();
+
+        MoonshineUser::all()->each(function (MoonshineUser $user) use (&$count, $statuses, $descriptions, $userIds) {
+            for ($i = 0; $i < 2; $i++) {
+                $count++;
+                $now = Carbon::now();
+                $oneYearFromNow = Carbon::now()->addYear();
+                $randomDateTime = Carbon::createFromTimestamp(random_int($now->timestamp, $oneYearFromNow->timestamp));
+
+                Task::create([
+                    'creator_id' => $userIds[array_rand($userIds)],
+                    'assignee_id' => $user->id,
+                    'status' => $statuses[array_rand($statuses)],
+                    'title' => 'Автосгенерированная задача №' . $count,
+                    'description' => $descriptions[array_rand($descriptions)],
+                    'result' => '',
+                    'deadline' => $randomDateTime,
+                ]);
+            }
+        });
     }
 }
