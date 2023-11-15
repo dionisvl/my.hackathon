@@ -1,4 +1,4 @@
-FROM php:8.2.12-fpm-bullseye
+FROM php:8.2.12-fpm-bookworm
 
 LABEL MAINTAINER="<dionisvl3@gmail.com>"
 LABEL RELEASEDATE="20231104"
@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libgd-dev \
         cron \
+        procps \
+        htop \
+        nano \
+        bash-completion \
     && docker-php-ext-install \
         gd \
         mysqli \
@@ -35,8 +39,6 @@ RUN pecl install xdebug \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# bash-completion
-RUN apt-get install -y nano bash-completion && rm -rf /var/lib/apt/lists/*
 # bash как оболочка по умолчанию
 SHELL ["/bin/bash", "-c"]
 
@@ -52,7 +54,6 @@ ADD .docker/php-fpm/crontab /etc/cron.d/schedule-cron
 RUN chmod 0644 /etc/cron.d/schedule-cron
 # Apply cron job
 RUN crontab /etc/cron.d/schedule-cron
-
 ## CRON end
 
 # Clean up apt cache to reduce image size

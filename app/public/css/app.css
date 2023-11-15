@@ -847,7 +847,6 @@ select {
   border-bottom-color: var(--tw-prose-th-borders);
 }
 .prose :where(thead th):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
   font-weight: 600;
   vertical-align: bottom;
   padding-right: 0.5714286em;

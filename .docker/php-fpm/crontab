@@ -1,1 +1,1 @@
-* * * * * cd /app && php artisan schedule:run >> /app/storage/logs/cron.log 2>&1
+* * * * * export $(grep -v '^#' /var/www/my.hack/.env | xargs) && cd /app && /usr/local/bin/php artisan schedule:run >> /app/storage/logs/cron.log 2>&1

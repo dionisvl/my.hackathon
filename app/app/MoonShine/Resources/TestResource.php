@@ -62,7 +62,8 @@ class TestResource extends ModelResource
         $html = <<<HTML
 <div>Вставьте сюда ваш текст для теста: </div>
 <textarea id="aiTextarea" style="min-width: 600px;"></textarea>
-<span id="loadMessage" class="inline-block bg-blue-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200 ease-in-out cursor-pointer" style="color: black !important;">
+<span id="loadMessage" class="border border-black rounded inline-block bg-blue-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200 ease-in-out cursor-pointer"
+ style="color: black !important; border: 1px black solid;">
   Сгенерировать тест на основе сырого текста с помощью нейросети
 </span>
 <div id="responseArea"></div>
@@ -123,10 +124,22 @@ HTML;
             ActionButton::make(
                 label: 'Генерация теста AI',
             //url: '/admin/ai/getModal',
-            )->inModal(
+            )
+                ->warning()
+                ->inModal(
                 title: fn() => 'Генерация теста AI',
                 content: fn() => $html,
                 async: false
+            ),
+        ];
+    }
+
+    public function components(): array
+    {
+        return [
+            ActionButton::make(
+                label: 'Button title',
+                url: 'https://moonshine-laravel.com',
             ),
         ];
     }
