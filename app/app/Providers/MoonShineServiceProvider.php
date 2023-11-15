@@ -9,6 +9,7 @@ use App\MoonShine\Resources\CourseMaterialsResource;
 use App\MoonShine\Resources\CourseResource;
 use App\MoonShine\Resources\CourseTestsResource;
 use App\MoonShine\Resources\CourseUsersResource;
+use App\MoonShine\Resources\EmailLogsResource;
 use App\MoonShine\Resources\MaterialResource;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\OnboardingPlanResource;
@@ -33,7 +34,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
 
                 MenuItem::make('Пользователи и Сотрудники', new MoonShineUserResource(), 'heroicons.outline.users'),
                 MenuItem::make('Роли', new MoonShineUserRoleResource(), 'heroicons.outline.shield-exclamation'),
-//                MenuItem::make('Сотрудники', new UserResource(), 'heroicons.outline.users'),
+                MenuItem::make('Лог отправки email', new EmailLogsResource(), 'heroicons.outline.bars-4'),
                 MenuItem::make('Настройки', new SettingResource(), 'heroicons.outline.adjustments-vertical'),
                 MenuItem::make('Связи курсов с сотрудниками', new CourseUsersResource()),
                 MenuItem::make('Связи курсов с учебными материалами', new CourseMaterialsResource()),

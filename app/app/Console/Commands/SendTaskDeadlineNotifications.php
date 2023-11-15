@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\TaskDeadlineEmail;
+use App\Models\EmailLogs;
 use App\Models\Task;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
@@ -28,8 +29,10 @@ class SendTaskDeadlineNotifications extends Command
 
         foreach ($tasks as $task) {
             if ($task->assignee) {
-                Mail::to($task->assignee->email)->send(new TaskDeadlineEmail($task));
+                $email = new TaskDeadlineEmail($task);
+                Mail::to($task->assignee->email)->send($email);
                 Log::info('Deadline notification sent to ' . $task->assignee->email);
+                EmailLogs::logEmail($task->assignee->id, $task->assignee->email, $email->subject);
             }
         }
     }

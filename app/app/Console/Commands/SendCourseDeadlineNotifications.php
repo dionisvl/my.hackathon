@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Mail\CourseDeadlineEmail;
 use App\Models\Course;
+use App\Models\EmailLogs;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -27,10 +28,11 @@ class SendCourseDeadlineNotifications extends Command
 
         foreach ($courses as $course) {
             foreach ($course->users as $user) {
-                Mail::to($user->email)->send(new CourseDeadlineEmail($course));
+                $email = new CourseDeadlineEmail($course);
+                Mail::to($user->email)->send($email);
                 Log::info('Course Deadline notification sent to ' . $user->email);
+                EmailLogs::logEmail($user->id, $user->email, $email->subject);
             }
-
         }
     }
 }

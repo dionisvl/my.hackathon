@@ -13,6 +13,8 @@ class CourseDeadlineEmail extends Mailable
 
     public Course $course;
 
+    public $subject = 'Уведомление о сроке выполнения курса онбординга';
+
     public function __construct(Course $course)
     {
         $this->course = $course;
@@ -21,7 +23,7 @@ class CourseDeadlineEmail extends Mailable
     public function build(): CourseDeadlineEmail
     {
         return $this->view('moonshine.emails.courseDeadline')
-            ->subject('Уведомление о сроке выполнения курса онбординга')
+            ->subject($this->subject)
             ->with([
                 'courseTitle' => $this->course->title,
                 'deadline' => $this->course->deadline_at,

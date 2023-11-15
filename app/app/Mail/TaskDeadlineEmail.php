@@ -13,6 +13,8 @@ class TaskDeadlineEmail extends Mailable
 
     public Task $task;
 
+    public $subject = 'Уведомление о сроке выполнения задачи';
+
     public function __construct(Task $task)
     {
         $this->task = $task;
@@ -21,7 +23,7 @@ class TaskDeadlineEmail extends Mailable
     public function build(): TaskDeadlineEmail
     {
         return $this->view('moonshine.emails.taskDeadline')
-            ->subject('Уведомление о сроке выполнения задачи')
+            ->subject($this->subject)
             ->with([
                 'taskTitle' => $this->task->title,
                 'deadline' => $this->task->deadline,

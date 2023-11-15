@@ -163,6 +163,14 @@ return new class extends Migration {
             $table->timestamp('deadline')->nullable()->index();
             $table->timestamps();
         });
+
+        Schema::create('email_logs', static function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id');
+            $table->string('email');
+            $table->string('type');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -196,5 +204,7 @@ return new class extends Migration {
         Schema::dropIfExists('plan_tests');
 
         Schema::dropIfExists('tasks');
+
+        Schema::dropIfExists('email_logs');
     }
 };

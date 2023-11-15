@@ -9,6 +9,7 @@ use App\Models\CourseMaterials;
 use App\Models\CourseRole;
 use App\Models\CourseTests;
 use App\Models\CourseUsers;
+use App\Models\EmailLogs;
 use App\Models\Material;
 use App\Models\MoonshineUser;
 use App\Models\MoonshineUserRole;
@@ -101,6 +102,7 @@ class DatabaseSeeder extends Seeder
         $this->userMaterialsAndTests();
         $this->courseTestsAndMaterials();
         $this->tasks();
+        $this->emailLogs();
     }
 
     private function onboardingPlans(): void
@@ -367,5 +369,19 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         });
+    }
+
+    private function emailLogs(): void
+    {
+        $userIds = MoonshineUser::pluck('id')->toArray();
+        $userEmails = MoonshineUser::pluck('email')->toArray();
+        $typeList = ['Уведомление о дедлайне курса', 'Уведомление о незавершенной задаче'];
+        for ($i = 0; $i < 2; $i++) {
+            EmailLogs::create([
+                'user_id' => $userIds[array_rand($userIds)],
+                'email' => $userEmails[array_rand($userEmails)],
+                'type' => $typeList[array_rand($typeList)],
+            ]);
+        }
     }
 }
