@@ -34,7 +34,7 @@ class TaskResource extends ModelResource
     public function fields(): array
     {
         $html = <<<HTML
-<span id="loadMessage" class="border border-black rounded inline-block bg-blue-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200 ease-in-out cursor-pointer"
+<span id="loadMessage" class="border border-black rounded inline-block bg-yellow-100 px-4 py-2 rounded-md text-sm font-medium hover:bg-white-100 transition duration-200 ease-in-out cursor-pointer"
 style="color: black !important; border: 1px black solid;">
   Сгенерировать отчет о работе с помощью нейросети
 </span>

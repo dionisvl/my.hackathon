@@ -53,11 +53,23 @@ class TestResource extends ModelResource
     {
         return [
             'title' => ['required', 'string', 'min:1'],
-//            'description' => ['string', 'min:1'],
         ];
     }
 
     public function buttons(): array
+    {
+        return [
+            ActionButton::make(
+                'Пройти этот тест',
+                static fn(Test $model) => route('moonshine.tests.start', $model)
+            )
+                ->success()
+                ->icon('heroicons.outline.paper-clip'),
+
+        ];
+    }
+
+    public function actions(): array
     {
         $html = <<<HTML
 <div>Вставьте сюда ваш текст для теста: </div>
@@ -114,33 +126,14 @@ document.getElementById('loadMessage').addEventListener('click', function() {
 }
 </style>
 HTML;
-
         return [
-            ActionButton::make(
-                'Пройти этот тест',
-                static fn(Test $model) => route('moonshine.tests.start', $model)
-            )->icon('heroicons.outline.paper-clip'),
-
-            ActionButton::make(
-                label: 'Генерация теста AI',
-            //url: '/admin/ai/getModal',
-            )
+            ActionButton::make(label: 'Генерация теста AI')
                 ->warning()
+                ->icon('heroicons.cursor-arrow-rays')
                 ->inModal(
-                title: fn() => 'Генерация теста AI',
-                content: fn() => $html,
-                async: false
-            ),
-        ];
-    }
-
-    public function components(): array
-    {
-        return [
-            ActionButton::make(
-                label: 'Button title',
-                url: 'https://moonshine-laravel.com',
-            ),
+                    title: fn() => 'Генерация теста с помощью AI',
+                    content: fn() => $html,
+                )
         ];
     }
 }

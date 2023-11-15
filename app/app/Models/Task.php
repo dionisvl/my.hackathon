@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 /**
  * @property int $id
@@ -58,32 +59,41 @@ class Task extends Model
             return;
         }
 
-        static::created(static function ($task) {
-            if ($task->assignee_id && $assignee = $task->assignee) {
-                Mail::to($assignee->email)->send(new TaskAssignedEmail($task));
-            }
-        });
+        try {
+            static::created(static function ($task) {
+                if ($task->assignee_id && $assignee = $task->assignee) {
+                    Mail::to($assignee->email)->send(new TaskAssignedEmail($task));
+                    EmailLogs::logEmail($task->assignee->id, $assignee->email, 'Задача создана и назначена');
+                }
+            });
 
-        static::updated(static function ($task) {
-            // Если задача была назначена, отправляем уведомление
-            if ($task->wasChanged('assignee_id') && $task->assignee_id && $assignee = $task->assignee) {
-                Mail::to($assignee->email)->send(new TaskAssignedEmail($task));
-            }
-
-            // Если задача была выполнена, отправляем уведомление менеджеру
-            if ($task->wasChanged('status') && $task->status === Task::STATUS_COMPLETED) {
-                $creator = $task->creator;
-                $assignee = $task->assignee;
-                if ($creator && $assignee) {
-                    /** @var MoonshineUser $creator */
-                    $managerEmail = $creator->email;
-                    Mail::to($managerEmail)->send(new TaskCompletedEmail($task, $assignee));
-                } else {
-                    Log::warning('creator or assignee of task not found');
+            static::updated(static function ($task) {
+                // Если задача была назначена, отправляем уведомление
+                if ($task->wasChanged('assignee_id') && $task->assignee_id && $assignee = $task->assignee) {
+                    Mail::to($assignee->email)->send(new TaskAssignedEmail($task));
+                    EmailLogs::logEmail($task->assignee->id, $assignee->email, 'Задача создана и назначена');
                 }
 
-            }
-        });
+                // Если задача была выполнена, отправляем уведомление менеджеру
+                if ($task->wasChanged('status') && $task->status === Task::STATUS_COMPLETED) {
+                    $creator = $task->creator;
+                    $assignee = $task->assignee;
+                    if ($creator && $assignee) {
+                        /** @var MoonshineUser $creator */
+                        $managerEmail = $creator->email;
+                        $email = new TaskCompletedEmail($task, $assignee);
+                        Mail::to($managerEmail)->send($email);
+                        EmailLogs::logEmail($task->assignee->id, $managerEmail, 'Задача выполнена');
+                    } else {
+                        Log::warning('creator or assignee of task not found');
+                    }
+
+                }
+            });
+
+        } catch (Throwable $e) {
+            Log::warning('Error during try to send task info email: ' . $e->getMessage());
+        }
     }
 
     /**
