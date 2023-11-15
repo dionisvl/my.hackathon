@@ -171,6 +171,15 @@ return new class extends Migration {
             $table->string('type');
             $table->timestamps();
         });
+
+        Schema::create('settings', static function (Blueprint $table) {
+            $table->id();
+            $table->string('key');
+            $table->string('value')->nullable();
+            $table->string('description')->default('');
+            $table->boolean('active')->default(true);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -206,5 +215,7 @@ return new class extends Migration {
         Schema::dropIfExists('tasks');
 
         Schema::dropIfExists('email_logs');
+
+        Schema::dropIfExists('settings');
     }
 };

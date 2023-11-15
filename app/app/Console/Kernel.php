@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
 
         // Уведомления по дедлайнам курсов:
         $schedule->command('send:deadline-course-notifications')
-            ->everyFiveMinutes()
+            ->hourly()
             ->appendOutputTo('/app/storage/logs/laravel-scheduler.log');
     }
 

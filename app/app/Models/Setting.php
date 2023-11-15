@@ -10,8 +10,19 @@ class Setting extends Model
     use HasFactory;
 
     protected $fillable = [
-        'copyright',
-        'email',
-        'phone'
+        'key',
+        'value',
+        'active',
+        'description',
     ];
+
+
+    public static function get(string $key): false|string
+    {
+        $setting = self::where('key', $key)->first();
+        if ($setting) {
+            return $setting->active ? $setting->value : false;
+        }
+        return false;
+    }
 }

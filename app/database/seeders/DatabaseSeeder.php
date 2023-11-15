@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Console\Commands\SendCourseDeadlineNotifications;
+use App\Console\Commands\SendTaskDeadlineNotifications;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Course;
@@ -14,6 +16,7 @@ use App\Models\Material;
 use App\Models\MoonshineUser;
 use App\Models\MoonshineUserRole;
 use App\Models\OnboardingPlan;
+use App\Models\Setting;
 use App\Models\Task;
 use App\Models\Test;
 use App\Models\TestQuestionAnswers;
@@ -24,7 +27,6 @@ use App\Models\UserTest;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Сидирование базы данных
@@ -87,13 +89,6 @@ class DatabaseSeeder extends Seeder
 
         User::factory(10)->create();
 
-        DB::table('settings')->insert([
-            'id' => 1,
-            'email' => fake()->email(),
-            'phone' => fake()->e164PhoneNumber(),
-            'copyright' => now()->year
-        ]);
-
         $this->onboardingPlans();
         $this->materials();
         $this->courses();
@@ -103,6 +98,7 @@ class DatabaseSeeder extends Seeder
         $this->courseTestsAndMaterials();
         $this->tasks();
         $this->emailLogs();
+        $this->settings();
     }
 
     private function onboardingPlans(): void
@@ -383,5 +379,19 @@ class DatabaseSeeder extends Seeder
                 'type' => $typeList[array_rand($typeList)],
             ]);
         }
+    }
+
+    private function settings(): void
+    {
+        Setting::create([
+            'key' => SendCourseDeadlineNotifications::SETTING_COURSE_DEADLINE_NOTIFICATION,
+            'value' => true,
+            'description' => 'Рассылка уведомлений о наступлении дедлайна курса онбординга',
+        ]);
+        Setting::create([
+            'key' => SendTaskDeadlineNotifications::SETTING_TASK_STATUS_NOTIFICATION,
+            'value' => true,
+            'description' => 'Рассылка уведомлений о состояниях задач онбординга',
+        ]);
     }
 }
