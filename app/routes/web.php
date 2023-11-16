@@ -3,10 +3,13 @@
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticateController;
+use App\Http\Controllers\BroadcastController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DictionaryController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTestController;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use MoonShine\Http\Controllers\AsyncController;
 use MoonShine\Http\Controllers\AttachmentController;
@@ -45,6 +48,15 @@ Route::prefix(config('moonshine.route.prefix', 'admin'))
     ->as('moonshine.')->group(static function (): void {
         Route::middleware(config('moonshine.auth.middleware', []))->group(function (): void {
 
+            Route::prefix('broadcasting')->controller(BroadcastController::class)
+                ->name('broadcasting.')
+                ->group(function () {
+                    Route::get('/auth', 'authenticate')->name('authenticate')
+                        ->withoutMiddleware([VerifyCsrfToken::class]);
+                    Route::post('/auth', 'authenticate')->name('authenticate')
+                        ->withoutMiddleware([VerifyCsrfToken::class]);
+                });
+
             Route::prefix('materials')->controller(MaterialController::class)
                 ->name('materials.')
                 ->group(function () {
@@ -71,6 +83,14 @@ Route::prefix(config('moonshine.route.prefix', 'admin'))
                 ->group(static function (): void {
                     Route::get('/getReport', 'getReport')->name('getReport');
                     Route::post('/generateTest', 'generateTest')->name('generateTest');
+                });
+
+            Route::prefix('chat')->controller(ChatController::class)
+                ->name('chat.')
+                ->group(static function (): void {
+                    Route::get('/chat', 'index')->name('index');
+                    Route::get('/messages', 'messages')->name('messages');
+                    Route::get('/send', 'send')->name('send');
                 });
 
             Route::prefix('resource/{resourceUri}')->group(function (): void {

@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\MoonshineUser;
+use MoonShine\Http\Middleware\Authenticate;
+
 return [
 
     /*
@@ -14,8 +17,15 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'moonshine',
         'passwords' => 'users',
+    ],
+    'middleware' => Authenticate::class,
+    'fields' => [
+        'username' => 'email',
+        'password' => 'password',
+        'name' => 'name',
+        'avatar' => 'avatar',
     ],
 
     /*
@@ -40,6 +50,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'moonshine' => [
+            'driver' => 'session',
+            'provider' => 'moonshine',
+        ],
     ],
 
     /*
@@ -62,9 +76,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => MoonshineUser::class,
         ],
-
+        'moonshine' => [
+            'driver' => 'eloquent',
+            'model' => MoonshineUser::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

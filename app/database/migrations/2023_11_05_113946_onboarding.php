@@ -180,6 +180,13 @@ return new class extends Migration {
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
+
+        Schema::create('messages', static function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->text('message');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -217,5 +224,7 @@ return new class extends Migration {
         Schema::dropIfExists('email_logs');
 
         Schema::dropIfExists('settings');
+
+        Schema::dropIfExists('messages');
     }
 };

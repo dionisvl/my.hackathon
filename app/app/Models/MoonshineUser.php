@@ -28,6 +28,24 @@ class MoonshineUser extends \MoonShine\Models\MoonshineUser
 
     protected $appends = ['is_course_completed'];
 
+    protected $fillable = [
+        'email',
+        'moonshine_user_role_id',
+        'password',
+        'name',
+        'avatar',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     /**
      * Аксессор к виртуальному полю is_course_completed
      * @return bool
@@ -36,14 +54,6 @@ class MoonshineUser extends \MoonShine\Models\MoonshineUser
     {
         return $this->isCourseCompleted();
     }
-
-    protected $fillable = [
-        'email',
-        'moonshine_user_role_id',
-        'password',
-        'name',
-        'avatar',
-    ];
 
     protected $with = ['moonshineUserRole'];
 
@@ -150,6 +160,10 @@ class MoonshineUser extends \MoonShine\Models\MoonshineUser
         }
 
         return [$countProcess, $countFinished];
+    }
 
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'user_id');
     }
 }

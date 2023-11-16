@@ -1,12 +1,12 @@
 <?php
 
+use App\Models\MoonshineUser;
 use App\MoonShine\Forms\LoginForm;
 use App\MoonShine\MoonShineLayout;
 use MoonShine\Exceptions\MoonShineNotFoundException;
 use MoonShine\Http\Middleware\Authenticate;
 use MoonShine\Http\Middleware\SecurityHeadersMiddleware;
 use MoonShine\Pages\ProfilePage;
-use MoonShine\Permissions\Models\MoonshineUser;
 
 return [
     'dir' => 'app/MoonShine',

@@ -19,6 +19,13 @@ use App\MoonShine\Resources\TestQuestionAnswersResource;
 use App\MoonShine\Resources\TestQuestionsResource;
 use App\MoonShine\Resources\TestResource;
 use App\MoonShine\Resources\UserTestResource;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use MoonShine\Http\Middleware\ChangeLocale;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
@@ -83,5 +90,30 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 'secondary' => '#b62982',
             ]
         ];
+    }
+
+    protected array $middlewareGroups = [
+        'moonshine' => [
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            AuthenticateSession::class,
+            ShareErrorsFromSession::class,
+//            VerifyCsrfToken::class,
+            SubstituteBindings::class,
+            ChangeLocale::class,
+        ],
+    ];
+
+    protected function registerRouteMiddleware(): void
+    {
+        $this->middlewareGroups['moonshine'] = array_merge(
+            $this->middlewareGroups['moonshine'],
+            config('moonshine.route.middlewares', [])
+        );
+
+        foreach ($this->middlewareGroups as $key => $middleware) {
+            app('router')->middlewareGroup($key, $middleware);
+        }
     }
 }
