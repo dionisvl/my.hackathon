@@ -99,6 +99,7 @@ class DatabaseSeeder extends Seeder
         $this->tasks();
         $this->emailLogs();
         $this->settings();
+        $this->simpleUsers();
     }
 
     private function onboardingPlans(): void
@@ -392,6 +393,23 @@ class DatabaseSeeder extends Seeder
             'key' => SendTaskDeadlineNotifications::SETTING_TASK_STATUS_NOTIFICATION,
             'value' => true,
             'description' => 'Рассылка уведомлений о состояниях задач онбординга',
+        ]);
+    }
+
+    private function simpleUsers(): void
+    {
+        MoonshineUser::query()->create([
+            'name' => 'Боженька',
+            'moonshine_user_role_id' => MoonshineUserRole::ADMIN_ROLE_ID,
+            'email' => 'god@god.ru',
+            'password' => bcrypt('god@god.ru')
+        ]);
+
+        MoonshineUser::query()->create([
+            'name' => 'Сотрудник Иван',
+            'moonshine_user_role_id' => MoonshineUserRole::WORKER_ROLE_ID,
+            'email' => 'w@w.ru',
+            'password' => bcrypt('w@w.ru')
         ]);
     }
 }

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Http\Requests\MessageFormRequest;
 use App\Models\Message;
+use App\Models\MoonshineUser;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use JsonException;
 
 class ChatController extends Controller
 {
@@ -21,14 +23,35 @@ class ChatController extends Controller
         return view('chat.chat');
     }
 
+    /**
+     * @throws JsonException
+     */
     public function send(MessageFormRequest $request)
     {
         $user = $request->user();
-        $message = $user
-            ->messages()
-            ->create($request->validated());
-
+        $messageText = $request->validated()['message'];
+        $message = $user->messages()->create(['message' => $messageText]);
         broadcast(new MessageSent($request->user(), $message));
+
+
+        $trigger = "Help";
+        $triggerPos = strpos($messageText, $trigger);
+
+        if ($triggerPos !== false) {
+            /** @var MoonshineUser $userAi */
+            $userAi = MoonshineUser::query()->where('email', 'god@god.ru')->firstOrFail();
+
+            // Получаем ответ от AI
+            $aiResponse = getAi($message);
+
+            // Создаем новое сообщение с ответом AI
+
+            /** @var Message $userAi */
+            $aiMessage = $userAi->messages()->create(['message' => $aiResponse]);
+
+            // Broadcast AI message
+            broadcast(new MessageSent($userAi, $aiMessage));
+        }
 
         return $message;
     }
