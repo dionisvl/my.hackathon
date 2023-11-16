@@ -5,7 +5,7 @@
         <div class="prose
             min-w-full
             prose-img:rounded-xl
-            prose-invert"
+            prose-invert text-black"
         >
             <h1>Результаты прохождения теста: </h1>
             <b>Тест: {{ $userTest->test->title }}</b>

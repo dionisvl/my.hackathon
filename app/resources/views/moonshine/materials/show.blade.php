@@ -12,7 +12,7 @@
             <h5>Изучите материал: </h5>
             <x-title>{{ $material->title }}</x-title>
 
-            <div class="mt-4">
+            <div class="text-black mt-4">
                 {!! $material->content !!}
                 <hr>
 
@@ -50,7 +50,9 @@
 
             </div>
 
-            <blockquote>После прочтения данного материала можете нажать кнопку "назад" и выбрать следующий.</blockquote>
+            <blockquote class="text-black">После прочтения данного материала можете нажать кнопку "назад" и выбрать
+                следующий.
+            </blockquote>
         </div>
     </div>
 @endsection

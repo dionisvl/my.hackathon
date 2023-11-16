@@ -11,21 +11,22 @@
             <div class="container mt-4">
                 <div class="card">
 
-                    <div class="card-header">
+                    <div class="card-header text-dark">
                         Курс: {{ $course->id }}. {{ $course->title }}<br>
                         Сотрудник: {{ $user->id }}. {{ $user->name }}
                     </div>
                     <div class="card-body">
-                        <h2 class="card-title">Прогресс онбординга пользователя</h2>
+                        <h2 class="card-title text-black">Прогресс онбординга пользователя</h2>
                         <p class="card-text badge badge-primary">Дата начала курса: {{ $course->start_at }}</p>
 
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush text-black">
                             <li class="list-group-item d-flex justify-content-between align-items-center  btn-outline-success">
                                 Материалы:
                             </li>
                             @foreach ($course->materials as $material)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{{ route('moonshine.materials.show', ['material' => $material->id]) }}">
+                                    <a class='text-black'
+                                       href="{{ route('moonshine.materials.show', ['material' => $material->id]) }}">
                                         {{ $material->title }}
                                     </a>
                                     @php
@@ -41,13 +42,14 @@
                                 </li>
                             @endforeach
                         </ul>
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush text-black">
                             <li class="list-group-item d-flex justify-content-between align-items-center btn-outline-info">
                                 Тесты:
                             </li>
                             @foreach ($course->tests as $test)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>Тест: <a href="{{ route('moonshine.tests.start', ['test' => $test->id]) }}">
+                                    <span>Тест: <a class='text-black'
+                                                   href="{{ route('moonshine.tests.start', ['test' => $test->id]) }}">
                                         {{ $test->title }}
                                     </a>
                                     </span>

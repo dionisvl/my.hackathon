@@ -21,7 +21,8 @@
                 </blockquote>
             @endif
 
-            <form action="{{ route('moonshine.tests.answer', ['testId' => $test->id]) }}" method="POST">
+            <form class="text-black" action="{{ route('moonshine.tests.answer', ['testId' => $test->id]) }}"
+                  method="POST">
                 @csrf <!-- CSRF token для безопасности -->
                 @foreach ($test->questions as $question)
                     <fieldset>

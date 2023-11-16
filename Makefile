@@ -28,7 +28,7 @@ sh:
 	docker compose exec php-fpm /bin/sh
 
 node-bash:
-	docker compose run --rm node /bin/sh
+	docker compose run --rm node /bin/bash
 npm-i:
 	docker compose run --rm node npm i
 npx-mix:

@@ -38,6 +38,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+    height: 74px;
   padding-left: 36px;
   padding-right: 36px;
   border-radius: 8px;
@@ -47,18 +48,26 @@
   text-align: center;
   transition: 0.3s ease;
 }
+
+@media (max-width: 1139.98px) {
+    .btn {
+        height: 64px;
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
 .btn:active {
   box-shadow: none !important;
   transform: translateY(3px);
 }
 
 .btn-purple {
-  box-shadow: 0px 3px 0px rgba(120, 67, 233, 0.3);
-  background-color: #7843E9;
+    box-shadow: 0px 3px 0px rgba(191, 191, 191, 0.3);
+    background-color: #bfbfbf;
   color: #FFF;
 }
 .btn-purple:hover {
-  background-color: black;
+    background-color: #0a0a0a;
 }
 
 .btn-pink {
@@ -85,6 +94,7 @@
   border: 0;
   box-shadow: 0 4px 0 rgba(255, 255, 255, 0.2);
   background-color: #FFF;
+    color: #e0e0e0;
   font-size: 16px;
   font-weight: 600;
   transition: 0.3s ease;
@@ -100,13 +110,13 @@
   }
 }
 .form-control::-moz-placeholder {
-  color: rgba(30, 31, 67, 0.5);
+    color: rgba(224, 224, 224, 0.5);
 }
 .form-control:-ms-input-placeholder {
-  color: rgba(30, 31, 67, 0.5);
+    color: rgba(224, 224, 224, 0.5);
 }
 .form-control::placeholder {
-  color: rgba(30, 31, 67, 0.5);
+    color: rgba(224, 224, 224, 0.5);
 }
 .form-control:focus {
   outline: none;
@@ -149,7 +159,8 @@
 
 body {
   min-width: 320px;
-    background-color: #FFF;
+    background-color: #e0e0e0;
+    color: #FFF;
 }
 
 a {
@@ -169,7 +180,7 @@ textarea._is-error {
   right: 0;
   bottom: 0;
   height: 2px;
-  background-color: #7843E9;
+    background-color: #bfbfbf;
   opacity: 0;
   transition: 0.3s ease;
 }
@@ -181,7 +192,8 @@ textarea._is-error {
 .filters-value._is-active {
   pointer-events: none;
   border-color: #EC4176;
-    background-color: #f2f2f2;
+    background-color: #EC4176;
+    color: #FFF;
 }
 
 .tasks-card-photo {
@@ -266,16 +278,4 @@ textarea._is-error {
   background-repeat: no-repeat;
   background-size: contain;
   margin-right: 12px;
-}
-.lesson .accordion-header._is-done::before {
-  background-image: url(/images/done.svg?0ae41c782b36b9a8595fee69b06892ee);
-}
-.lesson .accordion-header._is-checking::before {
-  background-image: url(/images/checking.svg?99550473765ea010f388ee2049df2a5e);
-}
-.lesson .accordion-header._is-progress::before {
-  background-image: url(/images/progress.svg?a1d489cba550829341f0f09ba8dbd02a);
-}
-.lesson .accordion-header._is-pending::before {
-  background-image: url(/images/time-forward.svg?814a0dc89c6fda9dedc9e29dce5a3e6b);
 }
