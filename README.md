@@ -1,6 +1,7 @@
+
 <p><img alt="laravel" src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-## HR сервис
+## HR Service
 
 > 2023-11-04
 
@@ -11,42 +12,69 @@
 
 ## How to Install
 
-- Install Docker and Compose plugin https://docs.docker.com/engine/install/
-- `mkdir /var/www/my.hack` and `cd /var/www/my.hack`
-- add `127.0.0.1 hack.local` to your hosts file
-- `git clone THIS_REPO ./`
-- `cp .env.example .env`
-- `cp app/.env.example app/.env`
-- fill all `MAIL_*` params in `app/.env` file
-- make sure that ALL params filled correctly in both files: `.env` and `app/.env`
-- `make composer-install`
-- `php artisan storage:link --relative`
-- `sudo chown -R www-data:www-data /var/www/my.hack/app/storage`
-- `sudo chown -R www-data:www-data /var/www/my.hack/app/bootstrap`
-- `sudo chmod 644 /var/www/my.hack/.docker/db/my.cnf`
-- `make migrate-seed`
-- Optional:
-    see how to create demo items in `Factories.md` file.
+1. Install Docker and Compose plugin: https://docs.docker.com/engine/install/
 
-### Deployment
+2. Run the following commands:
+    - `mkdir /var/www/my.hack && cd /var/www/my.hack`
+    - Add `127.0.0.1 hack.local` to your hosts file
 
-- `make down`
-- `git pull`
-- `docker compose up --build -d`
-- optional: `make composer-install`
-- optional: `make migrate`
+3. Clone the repository:
+    - `git clone THIS_REPO ./`
 
-### Создание ресурса админ-панели
+4. Set up environment files:
+    - `cp .env.example .env`
+    - `cp app/.env.example app/.env`
+
+5. Fill in all `MAIL_*` parameters in the `app/.env` file.
+
+6. Make sure that **ALL** parameters are correctly filled in both `.env` and `app/.env`.
+
+7. Run:
+    - `make composer-install`
+
+8. Create storage symbolic link:
+    - `php artisan storage:link --relative`
+
+9. Set permissions:
+    - `sudo chown -R www-data:www-data /var/www/my.hack/app/storage`
+    - `sudo chown -R www-data:www-data /var/www/my.hack/app/bootstrap`
+
+10. Adjust MySQL config file permissions:
+    - `sudo chmod 644 /var/www/my.hack/.docker/db/my.cnf`
+
+11. Run migrations and seeding:
+    - `make migrate-seed`
+
+12. Optional:
+    - See how to create demo items in the `Factories.md` file.
+
+## Deployment
+
+1. Shut down the containers:
+    - `make down`
+
+2. Pull the latest changes:
+    - `git pull`
+
+3. Build and restart containers:
+    - `docker compose up --build -d`
+
+4. Optional:
+    - Run `make composer-install`
+    - Run `make migrate`
+
+## Creating an Admin Panel Resource
 
 - `php artisan moonshine:resource MyModel`
 
-### Cache
+## Cache
+
 ```
 php artisan optimize:clear
 composer dump-autoload
 composer cc
 ```
 
-### Как войти в контейнер самого приложения
+## Accessing the Application Container
 
 - `make bash`
